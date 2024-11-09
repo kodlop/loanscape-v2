@@ -7,5 +7,7 @@ export function useIsLinkActive(href: string) {
   const query = searchParams.toString();
   const url = `${pathname}?${query}`;
 
+  if (url === "/") return href === url;
+
   return url.includes(href);
 }

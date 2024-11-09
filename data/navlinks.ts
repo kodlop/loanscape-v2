@@ -4,7 +4,7 @@ import { File, Landmark, LayoutDashboard, Settings } from "lucide-react";
 export const PRIMARY_NAVLINKS: Navlink[] = [
   {
     title: "Overview",
-    href: "/",
+    href: "/overview",
     icon: LayoutDashboard,
   },
   {

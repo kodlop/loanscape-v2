@@ -11,6 +11,7 @@ import { Bell } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { PRIMARY_NAVLINKS, SECONDARY_NAVLINKS } from "@/data/navlinks";
+import { useTheme } from "next-themes";
 
 type ApplicationLayoutProps = {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ type ApplicationLayoutProps = {
 
 export function ApplicationLayout({ children }: ApplicationLayoutProps) {
   const isCollapsed = useCollapsed();
+  const { theme } = useTheme();
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -46,9 +48,9 @@ export function ApplicationLayout({ children }: ApplicationLayoutProps) {
               />
             ) : (
               <Image
-                src="/logo.png"
+                src={theme === "dark" ? "/logo-light.png" : "/logo-dark.png"}
                 alt="Loanscape"
-                width={132}
+                width={172}
                 height={32}
                 className="pl-4"
               />

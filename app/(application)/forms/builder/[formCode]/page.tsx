@@ -6,7 +6,7 @@ export default async function FormBuilderPage(props: {
   params: Promise<{ formCode: string }>;
 }) {
   const { formCode } = await props.params;
-
+  console.log(formCode);
   // const form: Form | undefined = await getFormByFormCode(formCode);
   const form = undefined;
 

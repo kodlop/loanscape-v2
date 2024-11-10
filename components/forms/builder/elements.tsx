@@ -1,14 +1,27 @@
 import { LucideIcon } from "lucide-react";
 import { TextField } from "./form-elements/text-field";
+import { TitleField } from "./form-elements/title-field";
+import { SubTitleField } from "./form-elements/sub-title-field";
+import { ParagraphField } from "./form-elements/paragraph-field";
+import { SeparatorField } from "./form-elements/separator-field";
+import { NumberField } from "./form-elements/number-field";
+import { TextareaField } from "./form-elements/textarea-field";
 
-export type ElementsType = "TEXTFIELD";
+export type ElementsType =
+  | "TEXTFIELD"
+  | "TITLEFIELD"
+  | "SUBTITLEFIELD"
+  | "PARAGRAPHFIELD"
+  | "SEPARATORFIELD"
+  | "NUMBERFIELD"
+  | "TEXTAREAFIELD";
 
 export type ValueChangeFunction = (key: string, value: string) => void;
 
 export type ElementInstance = {
   id: string;
   type: ElementsType;
-  extraAttributes: Record<string, any>;
+  extraAttributes?: Record<string, any>;
 };
 
 export type Element = {
@@ -42,4 +55,10 @@ export type Elements = {
 
 export const Elements: Elements = {
   TEXTFIELD: TextField,
+  TITLEFIELD: TitleField,
+  SUBTITLEFIELD: SubTitleField,
+  PARAGRAPHFIELD: ParagraphField,
+  SEPARATORFIELD: SeparatorField,
+  NUMBERFIELD: NumberField,
+  TEXTAREAFIELD: TextareaField,
 };

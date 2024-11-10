@@ -1,6 +1,6 @@
 "use client";
 
-import { Type } from "lucide-react";
+import { Binary, Type } from "lucide-react";
 import {
   ElementsType,
   Element,
@@ -25,16 +25,16 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 
-const type: ElementsType = "TEXTFIELD";
+const type: ElementsType = "NUMBERFIELD";
 
 const extraAttributes = {
-  label: "Text Field",
-  helperText: "This is a text field",
+  label: "Number Field",
+  helperText: "This is a number field",
   required: false,
-  placeHolder: "Enter text here",
+  placeHolder: "0",
 };
 
-export const TextField: Element = {
+export const NumberField: Element = {
   type,
   construct: (id: string) => {
     return {
@@ -44,8 +44,8 @@ export const TextField: Element = {
     };
   },
   designerButton: {
-    icon: Type,
-    label: "Text Field",
+    icon: Binary,
+    label: "Number Field",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -78,7 +78,7 @@ function DesignerComponent({
           {label}
           {required && <span className="text-destructive">*</span>}
         </Label>
-        <Input readOnly disabled placeholder={placeHolder} />
+        <Input readOnly disabled type="number" placeholder={placeHolder} />
         {helperText && <CardDescription>{helperText}</CardDescription>}
       </CardContent>
     </Card>
@@ -177,7 +177,7 @@ function FormComponent({
 
   const onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     if (!valueChange) return;
-    const valid = TextField.validate(element, event.target.value);
+    const valid = NumberField.validate(element, event.target.value);
     setError(!valid);
     if (!valid) return;
     valueChange(element.id, event.target.value);
@@ -188,9 +188,11 @@ function FormComponent({
       <Label
         className={cn("text-base font-medium", error && "text-destructive")}
       >
-        {label} {required && <span className="text-destructive">*</span>}
+        {label}
+        {required && <span className="text-destructive">*</span>}
       </Label>
       <Input
+        type="number"
         className={cn(
           "h-12 text-base md:text-lg placeholder:text-muted-foreground",
           error && "text-destructive border-destructive"

@@ -1,5 +1,6 @@
 import { FormBuilder } from "@/components/forms/builder/form-builder";
 import BuilderProvider from "@/context/BuilderContext";
+import { getFormByFormCode } from "@/server/form";
 import { Form } from "@/types/form";
 
 export default async function FormBuilderPage(props: {
@@ -7,15 +8,14 @@ export default async function FormBuilderPage(props: {
 }) {
   const { formCode } = await props.params;
   console.log(formCode);
-  // const form: Form | undefined = await getFormByFormCode(formCode);
-  const form = undefined;
+  const form: Form | undefined | null = await getFormByFormCode(formCode);
 
-  // if (!form) {
-  //   return <div>Form not found</div>;
-  // }
+  if (!form) {
+    return <div>Form not found</div>;
+  }
 
   return (
-    <BuilderProvider defaultForm={{} as Form}>
+    <BuilderProvider defaultForm={form}>
       <FormBuilder />
     </BuilderProvider>
   );

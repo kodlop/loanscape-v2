@@ -23,14 +23,14 @@ export function FormDesignerSidebarButton({
     <div
       ref={draggable.setNodeRef}
       className={cn(
-        buttonVariants({ variant: "outline" }),
+        buttonVariants({ variant: "outline", size: "lg" }),
         "flex flex-col gap-y-2 h-16",
         draggable.isDragging && "ring-2 ring-primary"
       )}
       {...draggable.listeners}
       {...draggable.attributes}
     >
-      <Icon className="w-6 h-6" />
+      <Icon className="w-9 h-9" />
       <p className="text-xs">{label}</p>
     </div>
   );
@@ -52,11 +52,11 @@ export function FormDesignerSidebarButtonDragOverlay({
   return (
     <div
       className={cn(
-        buttonVariants({ variant: "outline" }),
+        buttonVariants({ variant: "outline", size: "lg" }),
         "flex flex-col gap-y-2 h-16"
       )}
     >
-      <Icon className="w-6 h-6" />
+      <Icon className="w-9 h-9" />
       <p className="text-xs">{label}</p>
     </div>
   );

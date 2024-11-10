@@ -13,6 +13,41 @@ import { Actions } from "./actions";
 import { Separator } from "@/components/ui/separator";
 import { DragOverlayWrapper } from "./drag-overlay-wrapper";
 import { FormDesigner } from "./form-designer";
+import { ElementInstance } from "./elements";
+import { idGenerator } from "@/lib/idGenerator";
+
+const MANDATORY_FIELDS: ElementInstance[] = [
+  {
+    id: idGenerator(),
+    type: "TEXTFIELD",
+    extraAttributes: {
+      label: "Email",
+      placeHolder: "Enter your email address",
+      required: true,
+      helperText: "We'll never share your email with anyone else.",
+    },
+  },
+  {
+    id: idGenerator(),
+    type: "TEXTFIELD",
+    extraAttributes: {
+      label: "Mobile Number",
+      placeHolder: "Enter your mobile number",
+      required: true,
+      helperText: "We'll never share your mobile number with anyone else.",
+    },
+  },
+  {
+    id: idGenerator(),
+    type: "TEXTFIELD",
+    extraAttributes: {
+      label: "Agreement Value",
+      placeHolder: "Enter your agreement value",
+      required: true,
+      helperText: "Enter amount (inr) of loan you want to take.",
+    },
+  },
+];
 
 export function FormBuilder() {
   const { form, setElements } = useBuilder();
@@ -35,9 +70,13 @@ export function FormBuilder() {
 
   useEffect(() => {
     if (isReady) return;
-
-    if (form.json_content === "") {
-      setElements([]);
+    console.log("Form json content", form.json_content);
+    if (
+      !form.json_content ||
+      form.json_content === "" ||
+      form.json_content === "[]"
+    ) {
+      setElements(MANDATORY_FIELDS);
       setIsReady(true);
       return;
     }

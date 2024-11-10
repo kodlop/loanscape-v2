@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useBuilder } from "@/hooks/use-builder";
 import { toast } from "@/hooks/use-toast";
+import { updateFormById } from "@/server/form";
 import { Form } from "@/types/form";
 import { Radio } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -22,37 +23,37 @@ export function PublishAction() {
 
   const handlePublish = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    // try {
-    //   const data = {
-    //     ...form,
-    //     json_content: JSON.stringify(elements),
-    //     is_published: true,
-    //   } as Form;
-    //   const { _id, ...dataWithoutId } = data;
-    //   await updateFormById(_id as string, dataWithoutId)
-    //     .then(() => {
-    //       toast({
-    //         title: "Form published",
-    //         description: "Your form has been published successfully",
-    //       });
-    //       router.push(`/forms`);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error publishing form", error);
-    //       toast({
-    //         title: "Error publishing form",
-    //         description: error.message,
-    //         variant: "destructive",
-    //       });
-    //     });
-    // } catch (error) {
-    //   console.error("Error publishing form", error);
-    //   toast({
-    //     title: "Error publishing form",
-    //     description: "An error occurred while publishing the form",
-    //     variant: "destructive",
-    //   });
-    // }
+    try {
+      const data = {
+        ...form,
+        json_content: JSON.stringify(elements),
+        is_published: true,
+      } as Form;
+      const { _id, ...dataWithoutId } = data;
+      await updateFormById(_id as string, dataWithoutId)
+        .then(() => {
+          toast({
+            title: "Form published",
+            description: "Your form has been published successfully",
+          });
+          router.push(`/forms`);
+        })
+        .catch((error) => {
+          console.error("Error publishing form", error);
+          toast({
+            title: "Error publishing form",
+            description: error.message,
+            variant: "destructive",
+          });
+        });
+    } catch (error) {
+      console.error("Error publishing form", error);
+      toast({
+        title: "Error publishing form",
+        description: "An error occurred while publishing the form",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

@@ -22,7 +22,7 @@ export const PRIMARY_NAVLINKS: Navlink[] = [
 export const SECONDARY_NAVLINKS: Navlink[] = [
   {
     title: "Settings",
-    href: "/settings",
+    href: "/settings?tab=general",
     icon: Settings,
   },
 ];

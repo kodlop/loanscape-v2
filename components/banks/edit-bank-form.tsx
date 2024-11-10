@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Separator } from "../ui/separator";
 import { FormTextarea } from "../custom/form-textarea";
+import { updateBank } from "@/server/bank";
+import { toast } from "@/hooks/use-toast";
 
 function GeneralForm({ form }: { form: UseFormReturn<Bank> }) {
   useEffect(() => {
@@ -167,7 +169,20 @@ export function EditBankForm({ data }: EditBankFormProps) {
   });
 
   async function onSubmit(data: Bank) {
-    console.log(data);
+    await updateBank(data?._id as string, data)
+      .then(() => {
+        toast({
+          title: "Bank added successfully",
+          description: "Bank has been added successfully",
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: "Failed to add bank",
+          description: error?.message,
+          variant: "destructive",
+        });
+      });
   }
 
   return (

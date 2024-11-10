@@ -11,6 +11,7 @@ import { FormDesignerSidebar } from "./form-designer-sidebar";
 export function FormDesigner() {
   const {
     elements,
+    setElements,
     addElement,
     removeElement,
     selectedElement,
@@ -39,6 +40,7 @@ export function FormDesigner() {
         const newFormElement = Elements[type as ElementsType].construct(
           idGenerator()
         );
+        console.log(newFormElement);
         addElement(elements.length, newFormElement);
 
         return;
@@ -100,22 +102,27 @@ export function FormDesigner() {
 
         const activeElement = { ...elements[activeElementIndex] };
 
-        removeElement(activeId);
+        // removeElement(activeId);
+        let updatedElements = [...elements];
+        // remove element from old position
+        updatedElements = updatedElements.filter(
+          (_, index) => _.id !== activeId
+        );
 
         let indexForNewElement = overElementIndex;
         if (droppingDesignerSidebarElementBottomHalf) {
           indexForNewElement = overElementIndex + 1;
         }
+        updatedElements.splice(indexForNewElement, 0, activeElement);
 
-        addElement(indexForNewElement, activeElement);
+        setElements(updatedElements);
       }
     },
   });
-
   return (
     <div className="flex w-full h-full">
       <div
-        className="w-full p-4"
+        className="w-full p-2"
         onClick={() => {
           if (selectedElement) setSelectedElement(null);
         }}
@@ -138,7 +145,7 @@ export function FormDesigner() {
             </div>
           )}
           {elements.length > 0 && (
-            <div className="flex flex-col w-full gap-2">
+            <div className="p-4 flex flex-col w-full gap-2">
               {elements.map((element: ElementInstance) => (
                 <ElementWrapper key={element.id} element={element} />
               ))}

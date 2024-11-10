@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { useBuilder } from "@/hooks/use-builder";
 import { Elements } from "./elements";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function PreviewAction() {
   const { elements } = useBuilder();
@@ -30,12 +31,16 @@ export function PreviewAction() {
             button to save your changes.
           </DialogDescription>
         </DialogHeader>
-        <div className="w-full flex flex-col gap-y-6">
-          {elements.map((element) => {
-            const FormComponent = Elements[element.type].formComponent;
-            return <FormComponent key={element.id} elementInstance={element} />;
-          })}
-        </div>
+        <ScrollArea>
+          <div className="w-full flex flex-col gap-y-6">
+            {elements.map((element) => {
+              const FormComponent = Elements[element.type].formComponent;
+              return (
+                <FormComponent key={element.id} elementInstance={element} />
+              );
+            })}
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

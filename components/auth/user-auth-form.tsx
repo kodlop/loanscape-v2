@@ -33,7 +33,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const { username, password } = values;
 
     try {
-      if (username === "admin" && password === "admin12345") {
+      if (username === "info@loanscape.co.in" && password === "loanscape1234") {
         router.push("/overview");
       } else {
         throw new Error("Invalid credentials");

@@ -9,9 +9,11 @@ import { FormInput } from "../custom/form-input";
 import { FormSelect } from "../custom/form-select";
 import { BANK_INSTIUTION_TYPES } from "@/data/constants";
 import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Separator } from "../ui/separator";
 import { FormTextarea } from "../custom/form-textarea";
+import { addBank } from "@/server/bank";
+import { toast } from "@/hooks/use-toast";
 
 function GeneralForm({ form }: { form: UseFormReturn<Bank> }) {
   useEffect(() => {
@@ -157,13 +159,34 @@ export function AddBankForm() {
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
 
+  const router = useRouter();
+
   const form = useForm<Bank>({
     resolver: zodResolver(bankSchema),
   });
 
   async function onSubmit(data: Bank) {
-    console.log(data);
+    await addBank(data)
+      .then(() => {
+        toast({
+          title: "Bank added successfully",
+          description: "Bank has been added successfully",
+        });
+
+        setTimeout(() => {
+          router.push("/banks");
+        }, 2000);
+      })
+      .catch((error) => {
+        toast({
+          title: "Failed to add bank",
+          description: error?.message,
+          variant: "destructive",
+        });
+      });
   }
+
+  console.log(form.formState.errors);
 
   return (
     <Form {...form}>

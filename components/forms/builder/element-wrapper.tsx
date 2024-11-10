@@ -89,7 +89,7 @@ export function ElementWrapper({ element }: { element: ElementInstance }) {
       )}
       <div
         className={cn(
-          "w-full p-2 rounded-sm opacity-100",
+          "w-full rounded-sm opacity-100",
           mouseIsOver && "opacity-30"
         )}
       >

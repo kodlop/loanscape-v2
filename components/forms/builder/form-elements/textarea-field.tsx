@@ -1,6 +1,6 @@
 "use client";
 
-import { Type } from "lucide-react";
+import { LetterText, Type } from "lucide-react";
 import {
   ElementsType,
   Element,
@@ -24,17 +24,20 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { FormSlider } from "@/components/custom/form-slider";
 
-const type: ElementsType = "TEXTFIELD";
+const type: ElementsType = "TEXTAREAFIELD";
 
 const extraAttributes = {
-  label: "Text Field",
-  helperText: "This is a text field",
+  label: "Textarea Field",
+  helperText: "This is a textarea field",
   required: false,
   placeHolder: "Enter text here",
+  rows: 4,
 };
 
-export const TextField: Element = {
+export const TextareaField: Element = {
   type,
   construct: (id: string) => {
     return {
@@ -44,7 +47,7 @@ export const TextField: Element = {
     };
   },
   designerButton: {
-    icon: Type,
+    icon: LetterText,
     label: "Text Field",
   },
   designerComponent: DesignerComponent,
@@ -69,7 +72,8 @@ function DesignerComponent({
   elementInstance: ElementInstance;
 }) {
   const element = elementInstance as CustomInstance;
-  const { label, helperText, required, placeHolder } = element.extraAttributes;
+  const { label, helperText, required, placeHolder, rows } =
+    element.extraAttributes;
 
   return (
     <Card>
@@ -78,20 +82,10 @@ function DesignerComponent({
           {label}
           {required && <span className="text-destructive">*</span>}
         </Label>
-        <Input readOnly disabled placeholder={placeHolder} />
+        <Textarea rows={rows} readOnly disabled placeholder={placeHolder} />
         {helperText && <CardDescription>{helperText}</CardDescription>}
       </CardContent>
     </Card>
-    // <div className="space-y-3 px-3 py-1.5">
-    //   <Label>
-    //     {label}
-    //     {required && <span className="">*</span>}
-    //   </Label>
-    //   <Input readOnly disabled placeholder={placeHolder} />
-    //   {helperText && (
-    //     <p className="text-xs text-muted-foreground">{helperText}</p>
-    //   )}
-    // </div>
   );
 }
 
@@ -100,6 +94,7 @@ const propertiesSchema = z.object({
   helperText: z.string(),
   required: z.boolean().default(false),
   placeHolder: z.string(),
+  rows: z.number().default(4),
 });
 
 type Properties = z.infer<typeof propertiesSchema>;
@@ -143,6 +138,14 @@ function PropertiesComponent({
           <FormInput form={form} name="placeHolder" label="Placeholder" />
           <FormInput form={form} name="helperText" label="Helper Text" />
           <FormSwitch form={form} name="required" label="Required" />
+          <FormSlider
+            form={form}
+            name="rows"
+            label="Rows"
+            min={1}
+            max={10}
+            step={1}
+          />
         </div>
       </form>
     </Form>
@@ -169,15 +172,15 @@ function FormComponent({
     setError(isInvalid === true);
   }, [isInvalid]);
 
-  const { label, required, placeHolder } = element.extraAttributes;
+  const { label, required, placeHolder, rows } = element.extraAttributes;
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(event.target.value);
   };
 
-  const onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+  const onBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
     if (!valueChange) return;
-    const valid = TextField.validate(element, event.target.value);
+    const valid = TextareaField.validate(element, event.target.value);
     setError(!valid);
     if (!valid) return;
     valueChange(element.id, event.target.value);
@@ -188,11 +191,13 @@ function FormComponent({
       <Label
         className={cn("text-base font-medium", error && "text-destructive")}
       >
-        {label} {required && <span className="text-destructive">*</span>}
+        {label}
+        {required && <span className="text-destructive">*</span>}
       </Label>
-      <Input
+      <Textarea
+        rows={rows}
         className={cn(
-          "h-12 text-base md:text-lg placeholder:text-muted-foreground",
+          "text-base md:text-lg placeholder:text-muted-foreground",
           error && "text-destructive border-destructive"
         )}
         placeholder={placeHolder}

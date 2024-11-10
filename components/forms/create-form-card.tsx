@@ -25,6 +25,7 @@ import { FormInput } from "../custom/form-input";
 import { useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { createForm } from "@/server/form";
 
 export function CreateFormCard() {
   const form = useForm<FormSchema>({
@@ -43,21 +44,23 @@ export function CreateFormCard() {
   }, [form.watch("form_name")]);
 
   const onSubmit = async (values: FormSchema) => {
-    // await createForm(values)
-    //   .then(() => {
-    //     toast({
-    //       title: "Form Created",
-    //       description: "The form has been successfully created.",
-    //     });
-    //     router.push(`/forms/builder/${values.form_code}`);
-    //   })
-    //   .catch((err) => {
-    //     toast({
-    //       title: "Error",
-    //       description: err.message,
-    //       variant: "destructive",
-    //     });
-    //   });
+    await createForm(values)
+      .then(() => {
+        toast({
+          title: "Form Created",
+          description: "The form has been successfully created.",
+        });
+        setTimeout(() => {
+          router.push(`/forms/builder/${values.form_code}`);
+        }, 2000);
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      });
   };
 
   return (

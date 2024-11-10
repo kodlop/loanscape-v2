@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { useBuilder } from "@/hooks/use-builder";
 import { toast } from "@/hooks/use-toast";
+import { getAllBanks } from "@/server/bank";
 import { Bank } from "@/types/bank";
 import { configSchema } from "@/types/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -107,23 +108,24 @@ function BankFormulasForm({
 
   const [banks, setBanks] = useState<Bank[]>([]);
 
-  // useEffect(() => {
-  //   const fetchBanks = async () => {
-  //     await getAllBanks()
-  //       .then((data) => {
-  //         setBanks(data);
-  //       })
-  //       .catch((error) => {
-  //         toast({
-  //           title: "Error",
-  //           description: error.message,
-  //           variant: "destructive",
-  //         });
-  //       });
-  //   };
+  useEffect(() => {
+    const fetchBanks = async () => {
+      await getAllBanks()
+        .then((data) => {
+          if (data === null) return;
+          setBanks(data);
+        })
+        .catch((error) => {
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive",
+          });
+        });
+    };
 
-  //   fetchBanks();
-  // }, []);
+    fetchBanks();
+  }, []);
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -152,6 +154,7 @@ function BankFormulasForm({
             size="icon"
             variant="destructive"
             onClick={() => remove(index)}
+            className="mt-auto mb-2"
           >
             <Trash2 className="w-4 h-4" />
           </Button>
@@ -162,7 +165,7 @@ function BankFormulasForm({
         onClick={() => {
           append({ bank_id: "", formula: "" });
         }}
-        className="place-content-end"
+        className=""
       >
         Add Bank Formula
       </Button>

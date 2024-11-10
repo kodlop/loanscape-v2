@@ -35,22 +35,26 @@ export default function BuilderProvider({
   const [selectedElement, setSelectedElement] =
     React.useState<ElementInstance | null>(null);
 
-  const addElement = (index: number, element: ElementInstance) => {
+  const addElement = (index: number, formElement: ElementInstance) => {
     const newFormElements = [...elements];
-    newFormElements.splice(index, 0, element);
+    newFormElements.splice(index, 0, formElement);
+    console.log("Added element", index);
     setElements(newFormElements);
   };
 
   const removeElement = (id: string) => {
-    const newFormElements = elements.filter((element) => element.id !== id);
+    const newFormElements = elements.filter(
+      (formElement) => formElement.id !== id
+    );
     setElements(newFormElements);
+    console.log("Removed element", id);
   };
 
-  const updateElement = (id: string, element: ElementInstance) => {
-    const newElements = elements.map((formElement) =>
-      element.id === id ? element : formElement
+  const updateElement = (id: string, formElement: ElementInstance) => {
+    const newFormElements = elements.map((element) =>
+      element.id === id ? formElement : element
     );
-    setElements(newElements);
+    setElements(newFormElements);
   };
 
   return (

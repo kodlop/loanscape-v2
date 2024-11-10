@@ -21,7 +21,7 @@ export const bankSchema = z.object({
   part_payment: z.string().trim(),
   minimum_down_payment: z.string().trim(),
   usp: z.string().trim(),
-  loan_amount_formula: z.string().trim(),
+  loan_amount_formula: z.string().trim().optional(),
 });
 
 export type Bank = z.infer<typeof bankSchema>;

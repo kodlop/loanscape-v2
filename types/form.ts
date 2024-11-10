@@ -27,7 +27,8 @@ export const formSchema = z.object({
   json_content: z.string().default("[]"),
   is_published: z.boolean().default(false).optional(),
   config: configSchema.optional(),
-
+  visit_count: z.number().default(0).optional(),
+  total_submissions: z.number().default(0).optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
 });

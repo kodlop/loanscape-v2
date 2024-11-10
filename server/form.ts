@@ -25,10 +25,24 @@ export function getFormByFormCode(code: string) {
   });
 }
 
+export function increaseVisitsCount(code: string) {
+  return request({
+    url: `${BASE_PATH}/visit/${code}`,
+    method: "GET",
+  });
+}
+
 export function updateFormById(id: string, data: Form) {
   return request({
     url: `${BASE_PATH}/update/${id}`,
     method: "PATCH",
     data: data,
+  });
+}
+
+export function getFormsStats() {
+  return request({
+    url: `${BASE_PATH}/stats`,
+    method: "GET",
   });
 }

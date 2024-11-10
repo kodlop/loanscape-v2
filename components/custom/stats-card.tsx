@@ -5,7 +5,7 @@ type StatCardType = {
   title: string;
   icon?: LucideIcon;
   iconColor?: string;
-  value?: string;
+  value?: string | number;
   description?: string;
 };
 

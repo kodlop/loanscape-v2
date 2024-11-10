@@ -23,6 +23,7 @@ import {
 import { updateEntry } from "@/server/entries";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface SubmissionsTableProps {
   formElements: ElementInstance[];
@@ -119,10 +120,7 @@ export function SubmissionsTable({
   };
 
   return (
-    <div>
-      <div className="">
-        <h2 className="text-lg lg:text-2xl font-bold">Submission</h2>
-      </div>
+    <ScrollArea className="w-full">
       <Table>
         <TableHeader>
           <TableRow>
@@ -155,10 +153,10 @@ export function SubmissionsTable({
               <RowCell type="TEXTFIELD" value={row.status} />
               <TableCell className="flex gap-x-2">
                 {/* <Link href={`tel:+91${row["Mobile Number"]}`}>
-                  <Button size="sm" variant="link">
-                    Call
-                  </Button>
-                </Link> */}
+                    <Button size="sm" variant="link">
+                      Call
+                    </Button>
+                  </Link> */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button size="sm" variant="link">
@@ -188,7 +186,7 @@ export function SubmissionsTable({
           ))}
         </TableBody>
       </Table>
-    </div>
+    </ScrollArea>
   );
 }
 

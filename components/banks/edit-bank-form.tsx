@@ -169,7 +169,8 @@ export function EditBankForm({ data }: EditBankFormProps) {
   });
 
   async function onSubmit(data: Bank) {
-    await updateBank(data?._id as string, data)
+    const { _id, ...rest } = data;
+    await updateBank(data?._id as string, rest)
       .then(() => {
         toast({
           title: "Bank added successfully",

@@ -1,6 +1,6 @@
 import { RenderFormFields } from "@/components/submit/render-form-fields";
 import { Testimonials } from "@/components/submit/testimonials";
-import { getFormByFormCode } from "@/server/form";
+import { getFormByFormCode, increaseVisitsCount } from "@/server/form";
 import { Form } from "@/types/form";
 import Image from "next/image";
 
@@ -14,6 +14,8 @@ export default async function SubmitFormPage(props: {
   if (!form) {
     return <div>Form not found</div>;
   }
+
+  const data = await increaseVisitsCount(formCode);
 
   return (
     <div className="w-full h-screen">

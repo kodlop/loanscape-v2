@@ -10,3 +10,10 @@ export function updateEntry(id: string, data: Bank) {
     data: data,
   });
 }
+
+export function todaysEntries() {
+  return request({
+    url: `${BASE_PATH}/dashboard/today`,
+    method: "GET",
+  });
+}

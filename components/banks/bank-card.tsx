@@ -1,3 +1,5 @@
+"use client";
+
 import { Bank } from "@/types/bank";
 
 import {
@@ -17,12 +19,35 @@ import {
 import { Button } from "../ui/button";
 import { AlertCircle, File, HandCoins, MoreVertical } from "lucide-react";
 import Link from "next/link";
+import { deleteBank } from "@/server/bank";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 interface BankCardProps {
   bank: Bank;
 }
 
 export function BankCard({ bank }: BankCardProps) {
+  const router = useRouter();
+
+  const handleDelete = async () => {
+    await deleteBank(bank?._id as string)
+      .then(() => {
+        toast({
+          title: "Bank deleted successfully",
+          description: `Bank ${bank.name} has been deleted`,
+        });
+        router.refresh();
+      })
+      .catch((error) => {
+        toast({
+          title: "Error deleting bank",
+          description: error.message,
+          variant: "destructive",
+        });
+      });
+  };
+
   return (
     <Card className="overflow-hidden">
       <CardHeader className="flex flex-row items-center bg-muted/50">
@@ -46,11 +71,11 @@ export function BankCard({ bank }: BankCardProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <Link href={`/banks/edit/${bank?._id}`}>
+              <Link href={`/banks/edit/${bank?._id}?tab=general`}>
                 <DropdownMenuItem>Edit</DropdownMenuItem>
               </Link>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

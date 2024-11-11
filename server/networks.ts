@@ -16,5 +16,14 @@ export const request = async (options: AxiosRequestConfig) => {
     return Promise.reject(error.response?.data);
   };
 
-  return client(options).then(onSuccess).catch(onError);
+  return client({
+    ...options,
+    headers: {
+      "Cache-Control": "no-cache, no-store, must-revalidate",
+      Pragma: "no-cache",
+      Expires: "0",
+    },
+  })
+    .then(onSuccess)
+    .catch(onError);
 };

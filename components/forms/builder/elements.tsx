@@ -6,6 +6,8 @@ import { ParagraphField } from "./form-elements/paragraph-field";
 import { SeparatorField } from "./form-elements/separator-field";
 import { NumberField } from "./form-elements/number-field";
 import { TextareaField } from "./form-elements/textarea-field";
+import { SpaceField } from "./form-elements/space-field";
+import { SliderField } from "./form-elements/slider-field";
 
 export type ElementsType =
   | "TEXTFIELD"
@@ -14,7 +16,9 @@ export type ElementsType =
   | "PARAGRAPHFIELD"
   | "SEPARATORFIELD"
   | "NUMBERFIELD"
-  | "TEXTAREAFIELD";
+  | "TEXTAREAFIELD"
+  | "SPACEFIELD"
+  | "SLIDERFIELD";
 
 export type ValueChangeFunction = (key: string, value: string) => void;
 
@@ -40,7 +44,7 @@ export type Element = {
     elementInstance: ElementInstance;
     valueChange?: (key: string, value: string) => void;
     isInvalid?: boolean;
-    defaultValue?: string;
+    defaultValue?: string | number;
   }>;
   propertiesComponent: React.FC<{
     elementInstance: ElementInstance;
@@ -61,4 +65,6 @@ export const Elements: Elements = {
   SEPARATORFIELD: SeparatorField,
   NUMBERFIELD: NumberField,
   TEXTAREAFIELD: TextareaField,
+  SPACEFIELD: SpaceField,
+  SLIDERFIELD: SliderField,
 };

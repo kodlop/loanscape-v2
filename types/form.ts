@@ -18,6 +18,7 @@ export const configSchema = z.object({
   additional_amount: z.number().default(0),
   statutory_dues: stampDuesSchema,
   bank_formula: z.array(bankFormulaSchema).default([]),
+  // tnc: z.string().default(""),
 });
 
 export const formSchema = z.object({

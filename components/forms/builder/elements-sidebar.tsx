@@ -13,6 +13,7 @@ export function ElementsSidebar() {
           <FormDesignerSidebarButton element={Elements.SUBTITLEFIELD} />
           <FormDesignerSidebarButton element={Elements.PARAGRAPHFIELD} />
           <FormDesignerSidebarButton element={Elements.SEPARATORFIELD} />
+          <FormDesignerSidebarButton element={Elements.SPACEFIELD} />
         </div>
       </div>
       <div className="">
@@ -23,6 +24,7 @@ export function ElementsSidebar() {
           <FormDesignerSidebarButton element={Elements.TEXTFIELD} />
           <FormDesignerSidebarButton element={Elements.NUMBERFIELD} />
           <FormDesignerSidebarButton element={Elements.TEXTAREAFIELD} />
+          <FormDesignerSidebarButton element={Elements.SLIDERFIELD} />
         </div>
       </div>
     </div>

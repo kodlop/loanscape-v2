@@ -123,5 +123,5 @@ function FormComponent({
 
   const { title } = element.extraAttributes;
 
-  return <h3 className="pt-4 text-xl md:text-2xl font-medium">{title}</h3>;
+  return <h3 className="text-lg font-medium lg:text-xl">{title}</h3>;
 }

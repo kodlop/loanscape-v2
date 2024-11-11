@@ -1,6 +1,6 @@
 "use client";
 
-import { Binary, Type } from "lucide-react";
+import { Binary, SlidersHorizontal, Type } from "lucide-react";
 import {
   ElementsType,
   Element,
@@ -24,17 +24,20 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
 
-const type: ElementsType = "NUMBERFIELD";
+const type: ElementsType = "SLIDERFIELD";
 
 const extraAttributes = {
-  label: "Number Field",
-  helperText: "This is a number field",
+  label: "Slider Field",
+  helperText: "This is a range field",
   required: false,
-  placeHolder: "0",
+  min: 0,
+  max: 100,
+  step: 1,
 };
 
-export const NumberField: Element = {
+export const SliderField: Element = {
   type,
   construct: (id: string) => {
     return {
@@ -44,8 +47,8 @@ export const NumberField: Element = {
     };
   },
   designerButton: {
-    icon: Binary,
-    label: "Number Field",
+    icon: SlidersHorizontal,
+    label: "Slider Field",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -53,7 +56,7 @@ export const NumberField: Element = {
   validate: (element: ElementInstance, currentValue: string) => {
     const formElement = element as CustomInstance;
     if (formElement.extraAttributes.required) {
-      return currentValue.trim().length > 0;
+      return true;
     }
     return true;
   },
@@ -78,8 +81,7 @@ function DesignerComponent({
           {label}
           {required && <span className="text-destructive">*</span>}
         </Label>
-        <Input readOnly disabled type="number" placeholder={placeHolder} />
-        {helperText && <CardDescription>{helperText}</CardDescription>}
+        <Slider disabled={true} defaultValue={[0]} min={1} max={100} step={2} />
       </CardContent>
     </Card>
     // <div className="space-y-3 px-3 py-1.5">
@@ -99,7 +101,9 @@ const propertiesSchema = z.object({
   label: z.string(),
   helperText: z.string(),
   required: z.boolean().default(false),
-  placeHolder: z.string(),
+  min: z.number().default(0),
+  max: z.number().default(100),
+  step: z.number().default(1),
 });
 
 type Properties = z.infer<typeof propertiesSchema>;
@@ -140,9 +144,11 @@ function PropertiesComponent({
       >
         <div className="space-y-6">
           <FormInput form={form} name="label" label="Label" />
-          <FormInput form={form} name="placeHolder" label="Placeholder" />
           <FormInput form={form} name="helperText" label="Helper Text" />
           <FormSwitch form={form} name="required" label="Required" />
+          <FormInput form={form} name="min" label="Min" type="number" />
+          <FormInput form={form} name="max" label="Max" type="number" />
+          <FormInput form={form} name="step" label="Step" type="number" />
         </div>
       </form>
     </Form>
@@ -162,45 +168,69 @@ function FormComponent({
 }) {
   const element = elementInstance as CustomInstance;
 
-  const [value, setValue] = useState(defaultValue || "");
+  const [value, setValue] = useState((defaultValue as number) || 0);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     setError(isInvalid === true);
   }, [isInvalid]);
 
-  const { label, required, placeHolder } = element.extraAttributes;
+  const { label, required, helperText, min, max, step } =
+    element.extraAttributes;
+
+  const onValueChange = (values: number[]) => {
+    setValue(values[0]);
+  };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    const currentValue = Number(event.target.value);
+    if (currentValue === 0) {
+      setValue(0);
+      return;
+    }
+    if (currentValue <= min) {
+      setValue(min);
+      return;
+    } else if (currentValue > max) {
+      setValue(max);
+      return;
+    } else {
+      setValue(currentValue);
+    }
   };
 
   const onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     if (!valueChange) return;
-    const valid = NumberField.validate(element, event.target.value);
+    const valid = SliderField.validate(element, value.toString());
     setError(!valid);
     if (!valid) return;
-    valueChange(element.id, event.target.value);
+    valueChange(element.id, value.toString());
   };
 
   return (
-    <div className="space-y-2 py-2">
-      {/* <Label
-        className={cn("text-base font-medium", error && "text-destructive")}
-      >
-        {label}
-        {required && <span className="text-destructive">*</span>}
-      </Label> */}
-      <Input
-        type="number"
-        className={cn(
-          "h-12 bg-primary/15 text-primary placeholder:text-primary text-base placeholder:text-base font-medium",
-          error && "text-destructive border-destructive"
-        )}
-        placeholder={label + (required ? " *" : "")}
-        onChange={onChange}
+    <div className="space-y-4 py-2">
+      <div className="flex justify-between items-center">
+        <Label className="text-base font-medium">
+          {label}
+          {required && <span className="text-destructive">*</span>}
+        </Label>
+        <Input
+          type="number"
+          value={value}
+          onBlur={onBlur}
+          onChange={onChange}
+          className="w-fit border-0 text-right border-b-muted border-b-2 rounded-none focus-visible:ring-0 text-base placeholder:text-base font-medium"
+        />
+      </div>
+
+      <Slider
+        defaultValue={[value]}
+        value={[value]}
+        min={min}
+        max={max}
+        step={step}
+        onValueChange={onValueChange}
         onBlur={onBlur}
-        value={value}
       />
     </div>
   );

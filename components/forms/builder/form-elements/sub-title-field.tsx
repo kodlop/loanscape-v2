@@ -123,7 +123,5 @@ function FormComponent({
 
   const { subTitle } = element.extraAttributes;
 
-  return (
-    <h4 className="text-base lg:text-lg text-muted-foreground">{subTitle}</h4>
-  );
+  return <h4 className="text-md md:text-lg">{subTitle}</h4>;
 }

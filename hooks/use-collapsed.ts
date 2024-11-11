@@ -1,9 +1,9 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export function useCollapsed() {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const handleResize = () => setIsCollapsed(window.innerWidth < 1024);
 
     window.addEventListener("load", handleResize);

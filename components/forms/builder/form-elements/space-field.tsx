@@ -1,6 +1,6 @@
 "use client";
 
-import { Heading1, Heading2, TableRowsSplit, Type } from "lucide-react";
+import { Heading1, Heading2, Space, TableRowsSplit, Type } from "lucide-react";
 import {
   ElementsType,
   Element,
@@ -12,9 +12,9 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-const type: ElementsType = "SEPARATORFIELD";
+const type: ElementsType = "SPACEFIELD";
 
-export const SeparatorField: Element = {
+export const SpaceField: Element = {
   type,
   construct: (id: string) => {
     return {
@@ -23,8 +23,8 @@ export const SeparatorField: Element = {
     };
   },
   designerButton: {
-    icon: TableRowsSplit,
-    label: "Separator Field",
+    icon: Space,
+    label: "Space Field",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -40,8 +40,8 @@ function DesignerComponent({
   return (
     <Card>
       <CardContent className="p-4 space-y-2">
-        <Label>Separator</Label>
-        <Separator />
+        <Label>Space</Label>
+        <div className="w-full h-4"></div>
       </CardContent>
     </Card>
   );
@@ -59,7 +59,6 @@ function FormComponent({
   elementInstance,
 }: {
   elementInstance: ElementInstance;
-  valueChange?: ValueChangeFunction;
 }) {
-  return <Separator className="my-2" />;
+  return <div className="w-full h-4"></div>;
 }

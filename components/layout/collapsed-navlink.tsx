@@ -13,7 +13,7 @@ export function CollapsedNavlink({
   navlink,
   isLinkActive,
 }: CollapsedNavlinkProps) {
-  const variant = isLinkActive ? "default" : "ghost";
+  const variant = isLinkActive ? "secondary" : "ghost";
 
   return (
     <Tooltip delayDuration={0}>
@@ -21,10 +21,10 @@ export function CollapsedNavlink({
         <Link
           href={navlink.href}
           className={cn(
-            buttonVariants({ variant: variant, size: "icon" })
-            // "h-9 w-9"
-            // variant === "secondary" &&
-            // "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+            buttonVariants({ variant: variant, size: "icon" }),
+            "h-9 w-9",
+            variant === "secondary" &&
+              "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
           )}
         >
           <navlink.icon className="h-4 w-4" />

@@ -3,6 +3,7 @@
 import { FormInput } from "@/components/custom/form-input";
 import { FormLayout } from "@/components/custom/form-layout";
 import { FormSelect } from "@/components/custom/form-select";
+import { FormTextarea } from "@/components/custom/form-textarea";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
@@ -57,6 +58,13 @@ function GeneralForm({
         className="sm:col-span-2"
         type="number"
       />
+      {/* <FormTextarea
+        form={form}
+        name="tnc"
+        label="Terms & Conditions"
+        placeholder="Enter terms & conditions"
+        className="md:col-span-4"
+      /> */}
     </div>
   );
 }

@@ -161,7 +161,7 @@ function FormComponent({
   elementInstance: ElementInstance;
   valueChange?: ValueChangeFunction;
   isInvalid?: boolean;
-  defaultValue?: string;
+  defaultValue?: number | string;
 }) {
   const element = elementInstance as CustomInstance;
 
@@ -188,16 +188,16 @@ function FormComponent({
 
   return (
     <div className="space-y-2 py-2">
-      <Label
+      {/* <Label
         className={cn("text-base font-medium", error && "text-destructive")}
       >
         {label}
         {required && <span className="text-destructive">*</span>}
-      </Label>
+      </Label> */}
       <Textarea
         rows={rows}
         className={cn(
-          "text-base md:text-lg placeholder:text-muted-foreground",
+          "bg-primary/15 text-primary placeholder:text-primary text-base placeholder:text-base font-medium",
           error && "text-destructive border-destructive"
         )}
         placeholder={placeHolder}

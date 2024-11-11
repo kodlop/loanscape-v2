@@ -64,23 +64,24 @@ export function RenderFormFields({
       submission: JSON.stringify(formValues.current),
     };
     setLoading(true);
-    await createSubmission(formCode, data)
-      .then(() => {
-        setLoading(false);
-        toast({
-          title: "Form submitted",
-          description: "Your form has been submitted successfully",
-        });
-        router.push("/thank-you");
-      })
-      .catch(() => {
-        setLoading(false);
-        toast({
-          title: "Form submission failed",
-          description: "There was an error submitting your form",
-          variant: "destructive",
-        });
-      });
+    console.log(data);
+    // await createSubmission(formCode, data)
+    //   .then(() => {
+    //     setLoading(false);
+    //     toast({
+    //       title: "Form submitted",
+    //       description: "Your form has been submitted successfully",
+    //     });
+    //     router.push("/thank-you");
+    //   })
+    //   .catch(() => {
+    //     setLoading(false);
+    //     toast({
+    //       title: "Form submission failed",
+    //       description: "There was an error submitting your form",
+    //       variant: "destructive",
+    //     });
+    //   });
   };
 
   return (
@@ -100,7 +101,7 @@ export function RenderFormFields({
       })}
       <Button
         onClick={() => submitForm()}
-        className="mt-8 font-semibold self-end mb-8 md:mb-12 lg:mb-16"
+        className="my-8 h-12 text-base font-medium"
         size="lg"
         loading={loading}
       >

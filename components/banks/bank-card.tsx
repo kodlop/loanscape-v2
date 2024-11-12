@@ -54,7 +54,7 @@ export function BankCard({ bank }: BankCardProps) {
       <CardHeader className="flex flex-row items-center bg-muted/50">
         <img
           src={
-            BANKS.find((b) => b.value === bank.name)?.logo ?? "/logo-mark.png"
+            BANKS.find((b) => b.value === bank.code)?.logo ?? "/logo-mark.png"
           }
           alt="Peinvoice"
           className="h-12 w-12 rounded-lg bg-white p-2"

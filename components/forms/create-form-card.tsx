@@ -2,6 +2,7 @@
 
 import {
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -65,14 +66,16 @@ export function CreateFormCard() {
 
   return (
     <Dialog>
-      <Card className="bg-accent">
+      <Card className="bg-accent flex flex-col">
         <CardHeader className="pb-3">
-          <CardTitle>Create Form</CardTitle>
+          <CardTitle>Create Form 🚀</CardTitle>
+        </CardHeader>
+        <CardContent>
           <CardDescription className="max-w-lg text-balance leading-relaxed">
             Create a new form to collect data from your users.
           </CardDescription>
-        </CardHeader>
-        <CardFooter>
+        </CardContent>
+        <CardFooter className="mt-auto">
           <DialogTrigger asChild>
             <Button>
               Create New Form

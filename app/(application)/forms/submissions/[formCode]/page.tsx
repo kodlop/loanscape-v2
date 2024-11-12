@@ -7,9 +7,76 @@ import { ViewQRCode } from "@/components/forms/submissions/view-qr-code";
 import { getFormByFormCode } from "@/server/form";
 import { getAllSubmissions } from "@/server/submit";
 import { Form } from "@/types/form";
-import { Eye, IndianRupee, Users } from "lucide-react";
-
+import {
+  Circle,
+  CircleCheck,
+  CircleDot,
+  Eye,
+  IndianRupee,
+  LucideIcon,
+  User,
+  Users,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { cn, formatNumberToIndianReadable } from "@/lib/utils";
 export const dynamic = "force-dynamic";
+
+const getStyle = (type: "VIEWS" | "SUBMISSIONS" | "AGREEMENT_VALUE") => {
+  switch (type) {
+    case "VIEWS":
+      return { icon: Eye, color: "bg-blue-500" };
+    case "SUBMISSIONS":
+      return { icon: User, color: "bg-yellow-500" };
+    case "AGREEMENT_VALUE":
+      return { icon: IndianRupee, color: "bg-green-500" };
+    default:
+      return { icon: Circle, color: "bg-blue-500" };
+  }
+};
+
+function LeadStatCard({
+  label,
+  value,
+  description,
+  type,
+}: {
+  icon?: LucideIcon;
+  label: string;
+  value: number;
+  description: string;
+  type: "VIEWS" | "SUBMISSIONS" | "AGREEMENT_VALUE";
+}) {
+  const { icon: Icon, color } = getStyle(type);
+
+  return (
+    <Card className="overflow-hidden flex flex-col">
+      <CardHeader className="flex flex-row items-center space-y-0">
+        <div className={cn("p-3 rounded-md", color)}>
+          <Icon className={cn("w-5 h-5 text-white")} strokeWidth={2} />
+        </div>
+        <div className="ml-4 space-y-1">
+          <CardDescription>{label}</CardDescription>
+          <CardTitle>₹{formatNumberToIndianReadable(value)}</CardTitle>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <CardDescription>{description}</CardDescription>
+      </CardContent>
+      {/* <CardFooter className="bg-muted/50 py-3 mt-auto">
+        <CardDescription className="hover:underline cursor-pointer">
+          View Details
+        </CardDescription>
+      </CardFooter> */}
+    </Card>
+  );
+}
 
 export default async function FormSubmissionPage(props: {
   params: Promise<{ formCode: string }>;
@@ -36,22 +103,22 @@ export default async function FormSubmissionPage(props: {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          title="Total Views"
-          icon={Eye}
-          value="12"
+        <LeadStatCard
+          type="VIEWS"
+          label="Total Views"
+          value={2000}
           description="Total number of views"
         />
-        <StatCard
-          title="Total Submissions"
-          icon={Users}
-          value="12"
+        <LeadStatCard
+          type="SUBMISSIONS"
+          label="Total Submissions"
+          value={2000}
           description="Total number of submissions"
         />
-        <StatCard
-          title="Highesh Argrrement"
-          icon={IndianRupee}
-          value="12"
+        <LeadStatCard
+          type="AGREEMENT_VALUE"
+          label="Highest Agreement Value"
+          value={2000}
           description="Highest value of all agreements"
         />
       </div>

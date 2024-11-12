@@ -74,7 +74,7 @@ export function ApplicationLayout({ children }: ApplicationLayoutProps) {
           </div>
           <Separator />
           <ScrollArea className="h-full">
-            <div className="px-4 py-8 h-full">
+            <div className="px-4 py-8 h-full bg-accent">
               {children}
               <div className="w-full p-8"></div>
             </div>

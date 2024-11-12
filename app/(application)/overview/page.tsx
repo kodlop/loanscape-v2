@@ -6,6 +6,19 @@ import { Circle, CircleCheck, IndianRupee, Loader } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SubmissionsTable } from "@/components/forms/submissions/submissions-table";
+import { CreateFormCard } from "@/components/forms/create-form-card";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { formatNumberToIndianReadable } from "@/lib/utils";
+import { formatNumberInIndianAnnotation } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -18,30 +31,53 @@ export default async function OverviewPage() {
         <h2 className="text-2xl font-bold tracking-tight">Overview</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          title="New"
-          icon={Circle}
-          value="12"
-          description="Total number of new leads"
-        />
-        <StatCard
-          title="Confirmed"
-          icon={CircleCheck}
-          value="12"
-          description="Total number of confirmed leads"
-        />
-        <StatCard
-          title="In Progress "
-          icon={Loader}
-          value="12"
-          description="Total number of leads in progress"
-        />
+        <CreateFormCard />
         <StatCard
           title="Highest Agreement Value"
           icon={IndianRupee}
           value="12"
           description="Total value of highest agreement"
         />
+        <Card className="sm:col-span-2 overflow-hidden flex flex-col">
+          <CardHeader>
+            <CardTitle>Leads</CardTitle>
+            <CardDescription>
+              Total leads
+              {formatNumberToIndianReadable(2005)}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Progress value={(200 / 2005) * 100} />
+          </CardContent>
+          <CardFooter className="mt-auto">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-3">
+              <dl className="">
+                <dt className="text-muted-foreground text-sm font-medium">
+                  New
+                </dt>
+                <dd className="text-lg font-semibold text-foreground">
+                  {formatNumberInIndianAnnotation(1000)}
+                </dd>
+              </dl>
+              <dl className="">
+                <dt className="text-muted-foreground text-sm font-medium">
+                  In Progress
+                </dt>
+                <dd className="text-lg font-semibold text-foreground">
+                  {formatNumberInIndianAnnotation(200)}
+                </dd>
+              </dl>
+              <dl className="">
+                <dt className="text-muted-foreground text-sm font-medium">
+                  Confirmed
+                </dt>
+                <dd className="text-lg font-semibold text-foreground">
+                  {formatNumberInIndianAnnotation(500)}
+                </dd>
+              </dl>
+            </div>
+          </CardFooter>
+        </Card>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <div className="md:col-span-2 lg:col-span-3">

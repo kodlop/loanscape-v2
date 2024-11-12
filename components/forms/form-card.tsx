@@ -74,16 +74,6 @@ export function FormCard({ form }: FormCardProps) {
             {form.form_name}
           </span>
         </CardTitle>
-        {form.is_published && (
-          <div className="z-10 mt-0 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex-none rounded-full p-1 text-green-500 bg-green-500/10 animate-pulse">
-            <div className="h-2 w-2 rounded-full bg-current"></div>
-          </div>
-        )}
-        {!form.is_published && (
-          <div className="z-10 mt-0 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex-none rounded-full p-1 text-destructive bg-destructive-400/10 animate-pulse">
-            <div className="h-2 w-2 rounded-full bg-current"></div>
-          </div>
-        )}
         <div className="absolute inset-0 rounded-tl-sm rounded-tr-sm overflow-hidden">
           <div className="relative">
             <div className="absolute inset-0 z-1 bg-slate-900/15"></div>
@@ -116,13 +106,23 @@ export function FormCard({ form }: FormCardProps) {
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0 mt-auto">
+        {form.is_published && (
+          <div className="z-10 mt-0 flex-none rounded-full p-1 text-green-500 bg-green-500/10 animate-pulse">
+            <div className="h-2 w-2 rounded-full bg-current"></div>
+          </div>
+        )}
+        {!form.is_published && (
+          <div className="z-10 mt-0 flex-none rounded-full p-1 text-destructive bg-destructive-400/10 animate-pulse">
+            <div className="h-2 w-2 rounded-full bg-current"></div>
+          </div>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger className="ml-auto pr-0 mr-0">
             <EllipsisVertical className="w-4 h-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {form.is_published && (
-              <Link href={`/forms/submission/${form.form_code}`}>
+              <Link href={`/forms/submissions/${form.form_code}`}>
                 <DropdownMenuItem>Submission</DropdownMenuItem>
               </Link>
             )}

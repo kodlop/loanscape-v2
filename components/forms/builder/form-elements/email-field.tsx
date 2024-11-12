@@ -1,6 +1,6 @@
 "use client";
 
-import { Binary, Type } from "lucide-react";
+import { AtSign, Type } from "lucide-react";
 import {
   ElementsType,
   Element,
@@ -25,16 +25,16 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 
-const type: ElementsType = "NUMBERFIELD";
+const type: ElementsType = "EMAILFIELD";
 
 const extraAttributes = {
-  label: "Number Field",
-  helperText: "This is a number field",
+  label: "Email Field",
+  helperText: "This is a email field",
   required: false,
-  placeHolder: "0",
+  placeHolder: "Enter email here",
 };
 
-export const NumberField: Element = {
+export const EmailField: Element = {
   type,
   construct: (id: string) => {
     return {
@@ -44,8 +44,8 @@ export const NumberField: Element = {
     };
   },
   designerButton: {
-    icon: Binary,
-    label: "Numeric Field",
+    icon: AtSign,
+    label: "Email Field",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -53,7 +53,7 @@ export const NumberField: Element = {
   validate: (element: ElementInstance, currentValue: string) => {
     const formElement = element as CustomInstance;
     if (formElement.extraAttributes.required) {
-      return currentValue.trim().length > 0;
+      return z.string().email().safeParse(currentValue).success;
     }
     return true;
   },
@@ -78,7 +78,7 @@ function DesignerComponent({
           {label}
           {required && <span className="text-destructive">*</span>}
         </Label>
-        <Input readOnly disabled type="number" placeholder={placeHolder} />
+        <Input type="email" readOnly disabled placeholder={placeHolder} />
         {helperText && <CardDescription>{helperText}</CardDescription>}
       </CardContent>
     </Card>
@@ -177,7 +177,7 @@ function FormComponent({
 
   const onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     if (!valueChange) return;
-    const valid = NumberField.validate(element, event.target.value);
+    const valid = EmailField.validate(element, event.target.value);
     setError(!valid);
     if (!valid) return;
     valueChange(element.id, event.target.value);
@@ -188,11 +188,10 @@ function FormComponent({
       {/* <Label
         className={cn("text-base font-medium", error && "text-destructive")}
       >
-        {label}
-        {required && <span className="text-destructive">*</span>}
+        {label} {required && <span className="text-destructive">*</span>}
       </Label> */}
       <Input
-        type="number"
+        type="email"
         className={cn(
           "h-12 bg-primary/15 text-primary placeholder:text-primary text-base placeholder:text-base font-medium",
           error && "text-destructive border-destructive"

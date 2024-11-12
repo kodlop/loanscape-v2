@@ -7,7 +7,7 @@ import { Form } from "../ui/form";
 import { Button } from "../ui/button";
 import { FormInput } from "../custom/form-input";
 import { FormSelect } from "../custom/form-select";
-import { BANK_INSTIUTION_TYPES } from "@/data/constants";
+import { BANK_INSTIUTION_TYPES, BANKS } from "@/data/constants";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Separator } from "../ui/separator";
@@ -31,12 +31,13 @@ function GeneralForm({ form }: { form: UseFormReturn<Bank> }) {
         </div>
         <Separator />
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <FormInput
+          <FormSelect
             form={form}
             name="name"
             label="Bank Name"
             placeholder="Enter bank name"
             className="sm:col-span-2"
+            options={BANKS}
           />
           <FormInput
             form={form}

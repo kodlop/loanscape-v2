@@ -3,6 +3,8 @@ import BuilderProvider from "@/context/BuilderContext";
 import { getFormByFormCode } from "@/server/form";
 import { Form } from "@/types/form";
 
+export const dynamic = "force-dynamic";
+
 export default async function FormBuilderPage(props: {
   params: Promise<{ formCode: string }>;
 }) {

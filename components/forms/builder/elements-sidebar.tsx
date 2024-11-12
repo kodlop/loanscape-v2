@@ -25,6 +25,8 @@ export function ElementsSidebar() {
           <FormDesignerSidebarButton element={Elements.NUMBERFIELD} />
           <FormDesignerSidebarButton element={Elements.TEXTAREAFIELD} />
           <FormDesignerSidebarButton element={Elements.SLIDERFIELD} />
+          <FormDesignerSidebarButton element={Elements.EMAILFIELD} />
+          <FormDesignerSidebarButton element={Elements.MOBILENUMBERFIELD} />
         </div>
       </div>
     </div>

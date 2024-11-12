@@ -7,6 +7,8 @@ import { Form } from "@/types/form";
 
 import { File, IndianRupee, Users } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function FormsPage() {
   const forms: Form[] | undefined | null = await getAllForms();
 

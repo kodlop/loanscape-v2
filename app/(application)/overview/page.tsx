@@ -7,6 +7,8 @@ import { Circle, CircleCheck, IndianRupee, Loader } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SubmissionsTable } from "@/components/forms/submissions/submissions-table";
 
+export const dynamic = "force-dynamic";
+
 export default async function OverviewPage() {
   const data = await todaysEntries();
 

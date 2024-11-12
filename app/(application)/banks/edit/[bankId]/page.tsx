@@ -5,6 +5,8 @@ import { getBankById } from "@/server/bank";
 import { Bank } from "@/types/bank";
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 export default async function EditBankPage(props: {
   params: Promise<{ bankId: string }>;
 }) {

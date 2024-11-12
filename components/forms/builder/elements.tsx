@@ -8,6 +8,8 @@ import { NumberField } from "./form-elements/number-field";
 import { TextareaField } from "./form-elements/textarea-field";
 import { SpaceField } from "./form-elements/space-field";
 import { SliderField } from "./form-elements/slider-field";
+import { EmailField } from "./form-elements/email-field";
+import { MobileNumberField } from "./form-elements/mobile-number-field";
 
 export type ElementsType =
   | "TEXTFIELD"
@@ -18,7 +20,9 @@ export type ElementsType =
   | "NUMBERFIELD"
   | "TEXTAREAFIELD"
   | "SPACEFIELD"
-  | "SLIDERFIELD";
+  | "SLIDERFIELD"
+  | "EMAILFIELD"
+  | "MOBILENUMBERFIELD";
 
 export type ValueChangeFunction = (key: string, value: string) => void;
 
@@ -67,4 +71,6 @@ export const Elements: Elements = {
   TEXTAREAFIELD: TextareaField,
   SPACEFIELD: SpaceField,
   SLIDERFIELD: SliderField,
+  EMAILFIELD: EmailField,
+  MOBILENUMBERFIELD: MobileNumberField,
 };

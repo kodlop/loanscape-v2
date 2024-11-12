@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Confetti } from "@/components/forms/submissions/confetti";
-
+export const dynamic = "force-dynamic";
 export default async function ThankYouPage() {
   return (
     <>

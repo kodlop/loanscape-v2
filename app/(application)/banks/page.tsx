@@ -5,6 +5,8 @@ import { Bank } from "@/types/bank";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function BanksPage() {
   const banks: Bank[] | undefined | null = await getAllBanks();
 

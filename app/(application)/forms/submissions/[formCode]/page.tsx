@@ -9,6 +9,8 @@ import { getAllSubmissions } from "@/server/submit";
 import { Form } from "@/types/form";
 import { Eye, IndianRupee, Users } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function FormSubmissionPage(props: {
   params: Promise<{ formCode: string }>;
 }) {

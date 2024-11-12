@@ -1,6 +1,6 @@
 "use client";
 
-import { Binary, Type } from "lucide-react";
+import { Binary, Phone, Type } from "lucide-react";
 import {
   ElementsType,
   Element,
@@ -25,16 +25,16 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 
-const type: ElementsType = "NUMBERFIELD";
+const type: ElementsType = "MOBILENUMBERFIELD";
 
 const extraAttributes = {
-  label: "Number Field",
-  helperText: "This is a number field",
+  label: "Mobile Number Field",
+  helperText: "This is a mobile number field",
   required: false,
-  placeHolder: "0",
+  placeHolder: "0000000000",
 };
 
-export const NumberField: Element = {
+export const MobileNumberField: Element = {
   type,
   construct: (id: string) => {
     return {
@@ -44,8 +44,8 @@ export const NumberField: Element = {
     };
   },
   designerButton: {
-    icon: Binary,
-    label: "Numeric Field",
+    icon: Phone,
+    label: "Phone Field",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -53,7 +53,7 @@ export const NumberField: Element = {
   validate: (element: ElementInstance, currentValue: string) => {
     const formElement = element as CustomInstance;
     if (formElement.extraAttributes.required) {
-      return currentValue.trim().length > 0;
+      return z.string().length(10).safeParse(currentValue).success;
     }
     return true;
   },
@@ -177,7 +177,7 @@ function FormComponent({
 
   const onBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     if (!valueChange) return;
-    const valid = NumberField.validate(element, event.target.value);
+    const valid = MobileNumberField.validate(element, event.target.value);
     setError(!valid);
     if (!valid) return;
     valueChange(element.id, event.target.value);

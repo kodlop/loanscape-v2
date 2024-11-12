@@ -53,3 +53,10 @@ export function getFormsStats() {
     method: "GET",
   });
 }
+
+export function getFormStats(code: string) {
+  return request({
+    url: `${BASE_PATH}/dashboard/stats/${code}`,
+    method: "GET",
+  });
+}

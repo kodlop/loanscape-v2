@@ -37,7 +37,10 @@ function GeneralForm({ form }: { form: UseFormReturn<Bank> }) {
             label="Bank Name"
             placeholder="Enter bank name"
             className="sm:col-span-2"
-            options={BANKS}
+            options={BANKS.map((bank) => ({
+              label: bank.label,
+              value: bank.label,
+            }))}
           />
           <FormInput
             form={form}

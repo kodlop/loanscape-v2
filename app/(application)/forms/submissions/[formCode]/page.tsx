@@ -4,7 +4,7 @@ import { ShareFormLink } from "@/components/forms/submissions/share-form-link";
 import { SubmissionsTable } from "@/components/forms/submissions/submissions-table";
 import { ViewFormAction } from "@/components/forms/submissions/view-form-actions";
 import { ViewQRCode } from "@/components/forms/submissions/view-qr-code";
-import { getFormByFormCode } from "@/server/form";
+import { getFormByFormCode, getFormStats } from "@/server/form";
 import { getAllSubmissions } from "@/server/submit";
 import { Form } from "@/types/form";
 import {
@@ -63,7 +63,9 @@ function LeadStatCard({
         </div>
         <div className="ml-4 space-y-1">
           <CardDescription>{label}</CardDescription>
-          <CardTitle>₹{formatNumberToIndianReadable(value)}</CardTitle>
+          <CardTitle className="">
+            ₹{formatNumberToIndianReadable(value)}
+          </CardTitle>
         </div>
       </CardHeader>
       <CardContent>
@@ -90,6 +92,7 @@ export default async function FormSubmissionPage(props: {
   }
 
   const submissions = await getAllSubmissions(formCode);
+  const stats = await getFormStats(formCode);
 
   const formElements = JSON.parse(form.json_content) as ElementInstance[];
 
@@ -106,19 +109,19 @@ export default async function FormSubmissionPage(props: {
         <LeadStatCard
           type="VIEWS"
           label="Total Views"
-          value={2000}
+          value={stats?.total_views ?? 0}
           description="Total number of views"
         />
         <LeadStatCard
           type="SUBMISSIONS"
           label="Total Submissions"
-          value={2000}
+          value={stats?.total_submissions ?? 0}
           description="Total number of submissions"
         />
         <LeadStatCard
           type="AGREEMENT_VALUE"
           label="Highest Agreement Value"
-          value={2000}
+          value={stats?.highest_agreement_value ?? 0}
           description="Highest value of all agreements"
         />
       </div>

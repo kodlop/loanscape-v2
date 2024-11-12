@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export function useCollapsed() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 1024);
 
   useEffect(() => {
     const handleResize = () => setIsCollapsed(window.innerWidth < 1024);

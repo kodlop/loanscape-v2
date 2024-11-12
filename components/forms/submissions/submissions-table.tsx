@@ -24,6 +24,7 @@ import { updateEntry } from "@/server/entries";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Edit } from "lucide-react";
 
 interface SubmissionsTableProps {
   formElements: ElementInstance[];
@@ -120,77 +121,114 @@ export function SubmissionsTable({
   };
 
   return (
-    <ScrollArea className="w-full">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {columns.map((column) => (
-              <TableHead key={column.id} className="uppercase">
-                {column.label}
-              </TableHead>
-            ))}
-            <TableHead className="uppercase">Submited At</TableHead>
-            <TableHead className="uppercase">Status</TableHead>
-            <TableHead className="uppercase">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {rows.map((row, index) => (
-            <TableRow key={index}>
+    <div className="rounded-md border bg-white">
+      <ScrollArea className="w-full">
+        <Table className="w-full">
+          <TableHeader>
+            <TableRow>
               {columns.map((column) => (
-                <RowCell
-                  key={column.id}
-                  type={column.type}
-                  value={row[column.id]}
-                />
+                <TableHead key={column.id} className="">
+                  <Button
+                    variant="ghost"
+                    className="-ml-3 h-8 data-[state=open]:bg-accent"
+                  >
+                    {column.label}
+                  </Button>
+                </TableHead>
               ))}
-              <RowCell
-                type="TEXTFIELD"
-                value={formatDistance(new Date(row.createdAt), new Date(), {
-                  addSuffix: true,
-                })}
-              />
-              <RowCell type="TEXTFIELD" value={row.status} />
-              <TableCell className="flex gap-x-2">
-                {/* <Link href={`tel:+91${row["Mobile Number"]}`}>
-                    <Button size="sm" variant="link">
-                      Call
-                    </Button>
-                  </Link> */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button size="sm" variant="link">
-                      Status
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem
-                      onClick={() => changeStatus(row._id, "NEW")}
-                    >
-                      New
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => changeStatus(row._id, "IN_PROGRESS")}
-                    >
-                      In progress
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => changeStatus(row._id, "CONFIRMED")}
-                    >
-                      Confirmed
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
+              <TableHead className="uppercase">
+                <Button
+                  variant="ghost"
+                  className="-ml-3 h-8 data-[state=open]:bg-accent"
+                >
+                  Submmited At
+                </Button>
+              </TableHead>
+              <TableHead className="uppercase">
+                <Button
+                  variant="ghost"
+                  className="-ml-3 h-8 data-[state=open]:bg-accent"
+                >
+                  Status
+                </Button>
+              </TableHead>
+              <TableHead className="uppercase">
+                <Button
+                  variant="ghost"
+                  className="-ml-3 h-8 data-[state=open]:bg-accent"
+                >
+                  Actions
+                </Button>
+              </TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </ScrollArea>
+          </TableHeader>
+          <TableBody>
+            {rows.reverse().map((row, index) => (
+              <TableRow key={index}>
+                {columns.map((column) => (
+                  <RowCell
+                    key={column.id}
+                    type={column.type}
+                    value={row[column.id]}
+                  />
+                ))}
+                <RowCell
+                  type="TEXTFIELD"
+                  value={row?.createdAt
+                    ?.split("T")[0]
+                    .split("-")
+                    .reverse()
+                    .join("/")}
+                />
+                <RowCell type="TEXTFIELD" value={row.status} />
+                <TableCell className="flex gap-x-2">
+                  {/* <Link href={`tel:+91${row["Mobile Number"]}`}>
+                      <Button size="sm" variant="link">
+                        Call
+                      </Button>
+                    </Link> */}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="sm" variant="link">
+                        <Edit className="w-3 h-3" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem
+                        onClick={() => changeStatus(row._id, "NEW")}
+                      >
+                        New
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => changeStatus(row._id, "IN_PROGRESS")}
+                      >
+                        In progress
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => changeStatus(row._id, "CONFIRMED")}
+                      >
+                        Confirmed
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </ScrollArea>
+    </div>
   );
 }
 
 function RowCell({ type, value }: { type: ElementsType; value: string }) {
-  const node: ReactNode = value;
+  let node: ReactNode = value;
+  if (type === "MOBILENUMBERFIELD") {
+    node = (
+      <Link href={`tel:+91${value}`}>
+        <Button variant="link">+91 {value}</Button>
+      </Link>
+    );
+  }
   return <TableCell>{node}</TableCell>;
 }

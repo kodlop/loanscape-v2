@@ -22,6 +22,7 @@ import Link from "next/link";
 import { deleteBank } from "@/server/bank";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { BANK_INSTIUTION_TYPES, BANKS } from "@/data/constants";
 
 interface BankCardProps {
   bank: Bank;
@@ -52,14 +53,20 @@ export function BankCard({ bank }: BankCardProps) {
     <Card className="overflow-hidden">
       <CardHeader className="flex flex-row items-center bg-muted/50">
         <img
-          src="./logo-mark.png"
+          src={
+            BANKS.find((b) => b.value === bank.name)?.logo ?? "/logo-mark.png"
+          }
           alt="Peinvoice"
           className="h-12 w-12 rounded-lg bg-white p-2"
         />
         <div className="ml-4">
           <CardTitle className="text-md">{bank.name}</CardTitle>
           <CardDescription className="text-xs">
-            {bank.institution_type}
+            {
+              BANK_INSTIUTION_TYPES.find(
+                (b) => b.value === bank.institution_type
+              )?.label
+            }
           </CardDescription>
         </div>
         <div className="ml-auto">

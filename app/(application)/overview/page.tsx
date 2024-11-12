@@ -19,11 +19,14 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { formatNumberToIndianReadable } from "@/lib/utils";
 import { formatNumberInIndianAnnotation } from "@/lib/utils";
+import { getFormsStats } from "@/server/form";
 
 export const dynamic = "force-dynamic";
 
 export default async function OverviewPage() {
   const data = await todaysEntries();
+
+  const leads = await getFormsStats();
 
   return (
     <div className="flex-1 space-y-8">
@@ -35,8 +38,10 @@ export default async function OverviewPage() {
         <StatCard
           title="Highest Agreement Value"
           icon={IndianRupee}
-          value="12"
-          description="Total value of highest agreement"
+          value={formatNumberToIndianReadable(
+            leads?.highest_agreement_value ?? 0
+          )}
+          description="Highest agreement value"
         />
         <Card className="sm:col-span-2 overflow-hidden flex flex-col">
           <CardHeader>

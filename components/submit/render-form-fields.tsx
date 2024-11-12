@@ -64,24 +64,23 @@ export function RenderFormFields({
       submission: JSON.stringify(formValues.current),
     };
     setLoading(true);
-    console.log(data);
-    // await createSubmission(formCode, data)
-    //   .then(() => {
-    //     setLoading(false);
-    //     toast({
-    //       title: "Form submitted",
-    //       description: "Your form has been submitted successfully",
-    //     });
-    //     router.push("/thank-you");
-    //   })
-    //   .catch(() => {
-    //     setLoading(false);
-    //     toast({
-    //       title: "Form submission failed",
-    //       description: "There was an error submitting your form",
-    //       variant: "destructive",
-    //     });
-    //   });
+    await createSubmission(formCode, data)
+      .then(() => {
+        setLoading(false);
+        toast({
+          title: "Form submitted",
+          description: "Your form has been submitted successfully",
+        });
+        router.push("/thank-you");
+      })
+      .catch(() => {
+        setLoading(false);
+        toast({
+          title: "Form submission failed",
+          description: "There was an error submitting your form",
+          variant: "destructive",
+        });
+      });
   };
 
   return (

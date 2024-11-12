@@ -78,7 +78,8 @@ export default async function OverviewPage() {
           <CardContent>
             <Progress
               value={
-                (confirmedLeads / newLeads + inProgressLeads + confirmedLeads) *
+                (confirmedLeads /
+                  (newLeads + inProgressLeads + confirmedLeads)) *
                 100
               }
             />

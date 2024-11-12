@@ -128,9 +128,6 @@ export default async function FormSubmissionPage(props: {
       </div>
       <ShareFormLink formCode={formCode} />
       <div className="space-y-4">
-        <div className="">
-          <h2 className="text-lg lg:text-2xl font-bold">Submission</h2>
-        </div>
         <SubmissionsTable
           formElements={formElements}
           submissions={submissions}

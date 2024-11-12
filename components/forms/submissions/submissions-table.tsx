@@ -24,7 +24,8 @@ import { updateEntry } from "@/server/entries";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Edit } from "lucide-react";
+import { Download, Edit } from "lucide-react";
+import { downloadExcel } from "@/lib/downloadExcel";
 
 interface SubmissionsTableProps {
   formElements: ElementInstance[];
@@ -148,103 +149,131 @@ export function SubmissionsTable({
       });
   };
 
+  const handleDownloadExcel = () => {
+    const data = rows.reverse().map((row, index) => {
+      const newRow: any = {};
+      {
+        columns.map((column) => (newRow[column.label] = row[column.id]));
+      }
+      newRow["Submitted At"] = row?.createdAt
+        ?.split("T")[0]
+        .split("-")
+        .reverse()
+        .join("/");
+
+      newRow["Status"] = row.status;
+
+      return newRow;
+    });
+    downloadExcel("submission", data);
+  };
+
   return (
-    <div className="rounded-md border bg-card">
-      <ScrollArea className="w-full">
-        <Table className="w-full">
-          <TableHeader>
-            <TableRow>
-              {columns.map((column) => (
-                <TableHead key={column.id} className="">
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h2 className="text-lg lg:text-2xl font-bold">Submissions</h2>
+        <Button variant="outline" onClick={handleDownloadExcel}>
+          <Download className="w-4 h-4" />
+          Download Excel
+        </Button>
+      </div>
+      <div className="rounded-md border bg-card">
+        <ScrollArea className="w-full">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableHead key={column.id} className="">
+                    <Button
+                      variant="ghost"
+                      className="-ml-3 h-8 data-[state=open]:bg-accent"
+                    >
+                      {column.label}
+                    </Button>
+                  </TableHead>
+                ))}
+                <TableHead className="uppercase">
                   <Button
                     variant="ghost"
                     className="-ml-3 h-8 data-[state=open]:bg-accent"
                   >
-                    {column.label}
+                    Submmited At
                   </Button>
                 </TableHead>
-              ))}
-              <TableHead className="uppercase">
-                <Button
-                  variant="ghost"
-                  className="-ml-3 h-8 data-[state=open]:bg-accent"
-                >
-                  Submmited At
-                </Button>
-              </TableHead>
-              <TableHead className="uppercase">
-                <Button
-                  variant="ghost"
-                  className="-ml-3 h-8 data-[state=open]:bg-accent"
-                >
-                  Status
-                </Button>
-              </TableHead>
-              <TableHead className="uppercase">
-                <Button
-                  variant="ghost"
-                  className="-ml-3 h-8 data-[state=open]:bg-accent"
-                >
-                  Actions
-                </Button>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rows.reverse().map((row, index) => (
-              <TableRow key={index}>
-                {columns.map((column) => (
+                <TableHead className="uppercase">
+                  <Button
+                    variant="ghost"
+                    className="-ml-3 h-8 data-[state=open]:bg-accent"
+                  >
+                    Status
+                  </Button>
+                </TableHead>
+                <TableHead className="uppercase">
+                  <Button
+                    variant="ghost"
+                    className="-ml-3 h-8 data-[state=open]:bg-accent"
+                  >
+                    Actions
+                  </Button>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rows.reverse().map((row, index) => (
+                <TableRow key={index}>
+                  {columns.map((column) => (
+                    <RowCell
+                      key={column.id}
+                      type={column.type}
+                      value={row[column.id]}
+                    />
+                  ))}
                   <RowCell
-                    key={column.id}
-                    type={column.type}
-                    value={row[column.id]}
+                    type="TEXTFIELD"
+                    value={row?.createdAt
+                      ?.split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("/")}
                   />
-                ))}
-                <RowCell
-                  type="TEXTFIELD"
-                  value={row?.createdAt
-                    ?.split("T")[0]
-                    .split("-")
-                    .reverse()
-                    .join("/")}
-                />
-                <RowCell type="TEXTFIELD" value={row.status} />
-                <TableCell className="flex gap-x-2">
-                  {/* <Link href={`tel:+91${row["Mobile Number"]}`}>
+                  <RowCell type="TEXTFIELD" value={row.status} />
+                  <TableCell className="flex gap-x-2">
+                    {/* <Link href={`tel:+91${row["Mobile Number"]}`}>
                       <Button size="sm" variant="link">
                         Call
                       </Button>
                     </Link> */}
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="sm" variant="link">
-                        <Edit className="w-3 h-3" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem
-                        onClick={() => changeStatus(row._id, "NEW")}
-                      >
-                        New
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => changeStatus(row._id, "IN_PROGRESS")}
-                      >
-                        In progress
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => changeStatus(row._id, "CONFIRMED")}
-                      >
-                        Confirmed
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </ScrollArea>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button size="sm" variant="link">
+                          <Edit className="w-3 h-3" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem
+                          onClick={() => changeStatus(row._id, "NEW")}
+                        >
+                          New
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => changeStatus(row._id, "IN_PROGRESS")}
+                        >
+                          In progress
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => changeStatus(row._id, "CONFIRMED")}
+                        >
+                          Confirmed
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </ScrollArea>
+      </div>
     </div>
   );
 }

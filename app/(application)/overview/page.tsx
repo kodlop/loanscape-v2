@@ -128,11 +128,6 @@ export default async function OverviewPage() {
             className="space-y-4"
             defaultValue={data[0]?.formDetails?.form_code}
           >
-            <div className="">
-              <h2 className="text-lg lg:text-2xl font-bold">
-                Todays Submissions
-              </h2>
-            </div>
             <TabsList>
               {data.map((entry: any, index: number) => (
                 <TabsTrigger key={index} value={entry?.formDetails?.form_code}>

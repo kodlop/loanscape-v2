@@ -64,7 +64,8 @@ function LeadStatCard({
         <div className="ml-4 space-y-1">
           <CardDescription>{label}</CardDescription>
           <CardTitle className="">
-            ₹{formatNumberToIndianReadable(value)}
+            {type === "AGREEMENT_VALUE" ? "₹" : ""}
+            {formatNumberToIndianReadable(value)}
           </CardTitle>
         </div>
       </CardHeader>

@@ -149,7 +149,7 @@ export function SubmissionsTable({
   };
 
   return (
-    <div className="rounded-md border bg-white">
+    <div className="rounded-md border bg-card">
       <ScrollArea className="w-full">
         <Table className="w-full">
           <TableHeader>

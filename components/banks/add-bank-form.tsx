@@ -19,7 +19,8 @@ function GeneralForm({ form }: { form: UseFormReturn<Bank> }) {
   useEffect(() => {
     if (!form.watch("name")) return;
     const bankName = form.watch("name");
-    const bankCode = bankName.toLowerCase().replace(/\s/g, "-");
+    const bankCode = BANKS.find((bank) => bank.label === bankName)
+      ?.value as string;
     form.setValue("code", bankCode);
   }, [form.watch("name")]);
 

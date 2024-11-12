@@ -203,6 +203,10 @@ export function ConfigAction() {
       ...prev,
       config: configForm.getValues(),
     }));
+    toast({
+      title: "⚠️ Attention",
+      description: "Please save the complete form to apply the changes",
+    });
   };
 
   return (

@@ -16,12 +16,11 @@ import { updateBank } from "@/server/bank";
 import { toast } from "@/hooks/use-toast";
 
 function GeneralForm({ form }: { form: UseFormReturn<Bank> }) {
-  useEffect(() => {
-    if (!form.watch("name")) return;
-    const bankName = form.watch("name");
-    const bankCode = bankName.toLowerCase().replace(/\s/g, "-");
-    form.setValue("code", bankCode);
-  }, [form.watch("name")]);
+  if (!form.watch("name")) return;
+  const bankName = form.watch("name");
+  const bankCode = BANKS.find((bank) => bank.label === bankName)
+    ?.value as string;
+  form.setValue("code", bankCode);
 
   return (
     <div className="space-y-8">

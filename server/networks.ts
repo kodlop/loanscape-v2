@@ -8,6 +8,7 @@ const client = axios.create({
 
 export const request = async (options: AxiosRequestConfig) => {
   const onSuccess = (response: AxiosResponse) => {
+    console.log(response.data);
     return response?.data?.data;
   };
 

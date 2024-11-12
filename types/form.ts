@@ -30,8 +30,8 @@ export const formSchema = z.object({
   config: configSchema.optional(),
   visit_count: z.number().default(0).optional(),
   total_submissions: z.number().default(0).optional(),
-  createdAt: z.string().optional(),
-  updatedAt: z.string().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
 });
 
 export type Form = z.infer<typeof formSchema>;

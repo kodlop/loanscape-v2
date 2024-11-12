@@ -15,7 +15,7 @@ export function SaveAction() {
         json_content: JSON.stringify(elements),
       } as Form;
       console.log("Saving form", data);
-      const { _id, ...dataWithoutId } = data;
+      const { _id, createdAt, updatedAt, ...dataWithoutId } = data;
       await updateFormById(_id as string, dataWithoutId)
         .then(() => {
           toast({

@@ -29,14 +29,14 @@ export function PublishAction() {
         json_content: JSON.stringify(elements),
         is_published: true,
       } as Form;
-      const { _id, ...dataWithoutId } = data;
+      const { _id, createdAt, updatedAt, ...dataWithoutId } = data;
       await updateFormById(_id as string, dataWithoutId)
         .then(() => {
           toast({
             title: "Form published",
             description: "Your form has been published successfully",
           });
-          router.push(`/forms`);
+          router.push(`/forms/submissions/${form.form_code}`);
         })
         .catch((error) => {
           console.error("Error publishing form", error);

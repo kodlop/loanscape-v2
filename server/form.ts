@@ -60,3 +60,10 @@ export function getFormStats(code: string) {
     method: "GET",
   });
 }
+
+export function getFormVisitsData(startDate: string, endDate: string) {
+  return request({
+    url: `${BASE_PATH}/dashboard/visits?startDate=${startDate}&endDate=${endDate}`,
+    method: "GET",
+  });
+}

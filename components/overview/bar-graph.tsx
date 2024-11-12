@@ -15,14 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", new: 186, confirmed: 80 },
-  { month: "February", new: 305, confirmed: 200 },
-  { month: "March", new: 237, confirmed: 120 },
-  { month: "April", new: 73, confirmed: 190 },
-  { month: "May", new: 209, confirmed: 130 },
-  { month: "June", new: 214, confirmed: 140 },
-];
+
 const chartConfig = {
   new: {
     label: "New",
@@ -33,7 +26,21 @@ const chartConfig = {
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
-export function BarGraph() {
+
+const getPercentageChange = (chartData: any[]) => {
+  if (chartData.length < 2) return 0;
+  const current = chartData[chartData.length - 1];
+  const previous = chartData[chartData.length - 2];
+  return ((current.new - previous.new) / previous.new) * 100;
+};
+export function BarGraph({ graph }: { graph: any[] }) {
+  const chartData = graph?.map((data: any) => {
+    return {
+      month: data?.month,
+      new: data?.total_new_leads,
+      confirmed: data?.total_completed_leads,
+    };
+  });
   return (
     <Card>
       <CardHeader>
@@ -62,10 +69,11 @@ export function BarGraph() {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          Trending by {getPercentageChange(chartData)}% this month{" "}
+          {/* <TrendingUp className="h-4 w-4" /> */}
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing total leads for the last 6 months
         </div>
       </CardFooter>
     </Card>

@@ -24,3 +24,10 @@ export function getEntriesStatus() {
     method: "GET",
   });
 }
+
+export function getGraphData(startDate: string, endDate: string) {
+  return request({
+    url: `${BASE_PATH}/dashboard/leads?startDate=${startDate}&endDate=${endDate}`,
+    method: "GET",
+  });
+}

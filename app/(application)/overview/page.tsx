@@ -19,17 +19,29 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { formatNumberToIndianReadable } from "@/lib/utils";
 import { formatNumberInIndianAnnotation } from "@/lib/utils";
-import { getFormsStats } from "@/server/form";
+import { getFormsStats, getFormVisitsData } from "@/server/form";
+import { getGraphData } from "../../../server/entries";
+import { addDays, subMonths } from "date-fns";
 
 export const dynamic = "force-dynamic";
 
-async function getData() {
-  return Promise.all([todaysEntries(), getEntriesStatus(), getFormsStats()])
+const getData = async () => {
+  const startDate = subMonths(new Date(), 6).toISOString().split("T")[0];
+  const endDate = addDays(new Date(), 1).toISOString().split("T")[0];
+  return Promise.all([
+    todaysEntries(),
+    getEntriesStatus(),
+    getFormsStats(),
+    getGraphData(startDate, endDate),
+    getFormVisitsData(startDate, endDate),
+  ])
     .then((values) => {
       return {
         data: values[0] ?? [],
         leads: values[1] ?? [],
         highest_agreement_value: values[2]?.highest_agreement_value ?? 0,
+        graph: values[3] ?? [],
+        visits: values[4] ?? [],
       };
     })
     .catch((error) => {
@@ -38,12 +50,15 @@ async function getData() {
         data: [],
         leads: [],
         highest_agreement_value: 0,
+        graph: [],
+        visits: [],
       };
     });
-}
+};
 
 export default async function OverviewPage() {
-  const { data, leads, highest_agreement_value } = await getData();
+  const { data, leads, highest_agreement_value, graph, visits } =
+    await getData();
 
   const newLeads =
     leads?.find((lead: any) => lead?.status === "NEW")?.count ?? 0;
@@ -62,7 +77,9 @@ export default async function OverviewPage() {
         <StatCard
           title="Highest Agreement Value"
           icon={IndianRupee}
-          value={formatNumberToIndianReadable(highest_agreement_value ?? 0)}
+          value={
+            "₹" + formatNumberToIndianReadable(highest_agreement_value ?? 0)
+          }
           description="Highest agreement value"
         />
         <Card className="sm:col-span-2 overflow-hidden flex flex-col">
@@ -116,10 +133,10 @@ export default async function OverviewPage() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <div className="md:col-span-2 lg:col-span-3">
-          <BarGraph />
+          <BarGraph graph={graph ?? []} />
         </div>
         <div className="md:col-span-1 lg:col-span-2">
-          <VisitorsGraph />
+          <VisitorsGraph visits={visits ?? []} />
         </div>
       </div>
       <div className="">

@@ -38,7 +38,7 @@ export function BarGraph({ graph }: { graph: any[] }) {
     return {
       month: data?.month,
       new: data?.total_new_leads,
-      confirmed: data?.total_completed_leads,
+      confirmed: data?.total_confirmed_leads,
     };
   });
   return (

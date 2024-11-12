@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const stampDuesSchema = z.object({
-  stamp_duty: z.number().default(0),
+  mod_percent: z.number().min(0).max(100),
   notice_of_initimation: z.number().default(0),
   advocate_fees: z.number().default(0),
 });
@@ -12,13 +12,13 @@ export const bankFormulaSchema = z.object({
 });
 
 export const configSchema = z.object({
-  gst_amount: z.number().default(0),
-  maintainece_amount: z.number().default(0),
-  stamp_duty_amount: z.number().default(0),
-  additional_amount: z.number().default(0),
+  gst_percent: z.number().min(0).max(100).default(0),
+  stamp_duty_percent: z.number().min(0).max(100).default(0),
+  additional_percent: z.number().min(0).max(100).default(0),
+  maintenance_amount: z.number().default(0),
   statutory_dues: stampDuesSchema,
   bank_formula: z.array(bankFormulaSchema).default([]),
-  // tnc: z.string().default(""),
+  tnc: z.string().default(""),
 });
 
 export const formSchema = z.object({

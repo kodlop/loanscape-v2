@@ -77,6 +77,34 @@ export function SubmissionsTable({
         });
         break;
       }
+      case "EMAILFIELD": {
+        columns.push({
+          id: element.id,
+          label: element.extraAttributes?.label || "",
+          required: element.extraAttributes?.required || false,
+          type: element.type,
+        });
+        break;
+      }
+      case "MOBILENUMBERFIELD": {
+        columns.push({
+          id: element.id,
+          label: element.extraAttributes?.label || "",
+          required: element.extraAttributes?.required || false,
+          type: element.type,
+        });
+        break;
+      }
+      case "SLIDERFIELD": {
+        columns.push({
+          id: element.id,
+          label: element.extraAttributes?.label || "",
+          required: element.extraAttributes?.required || false,
+          type: element.type,
+        });
+        break;
+      }
+
       default:
         break;
     }

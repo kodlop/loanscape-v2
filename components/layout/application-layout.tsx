@@ -7,11 +7,13 @@ import { useCollapsed } from "@/hooks/use-collapsed";
 import Image from "next/image";
 import { Navbar } from "./navbar";
 import { Button } from "@/components/ui/button";
-import { Bell } from "lucide-react";
+import { Bell, LogOut } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { PRIMARY_NAVLINKS, SECONDARY_NAVLINKS } from "@/data/navlinks";
 import { useTheme } from "next-themes";
+import { signOut } from "next-auth/react";
+import { ContactCard } from "./contact-card";
 
 type ApplicationLayoutProps = {
   children: React.ReactNode;
@@ -60,7 +62,7 @@ export function ApplicationLayout({ children }: ApplicationLayoutProps) {
           <Navbar navlinks={PRIMARY_NAVLINKS} isCollapsed={isCollapsed} />
           <Separator />
           <Navbar navlinks={SECONDARY_NAVLINKS} isCollapsed={isCollapsed} />
-          {/* {!isCollapsed && <UpgradeCard className="mx-2 mt-auto mb-8" />} */}
+          {!isCollapsed && <ContactCard className="mx-2 mt-auto mb-8" />}
         </div>
         <div className="flex-1 h-screen">
           <div className="flex items-center px-4 py-2">
@@ -69,6 +71,9 @@ export function ApplicationLayout({ children }: ApplicationLayoutProps) {
               <ModeToggle />
               <Button variant="ghost" size="icon">
                 <Bell className="h-4 w-4" />
+              </Button>
+              <Button onClick={() => signOut()} variant="ghost" size="icon">
+                <LogOut className="h-4 w-4" />
               </Button>
             </div>
           </div>

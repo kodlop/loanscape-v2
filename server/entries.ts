@@ -17,3 +17,10 @@ export function todaysEntries() {
     method: "GET",
   });
 }
+
+export function getEntriesStatus() {
+  return request({
+    url: `${BASE_PATH}/dashboard/status`,
+    method: "GET",
+  });
+}

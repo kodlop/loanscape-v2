@@ -19,7 +19,7 @@ import { idGenerator } from "@/lib/idGenerator";
 const MANDATORY_FIELDS: ElementInstance[] = [
   {
     id: idGenerator(),
-    type: "TEXTFIELD",
+    type: "EMAILFIELD",
     extraAttributes: {
       label: "Email",
       placeHolder: "Enter your email address",
@@ -29,7 +29,7 @@ const MANDATORY_FIELDS: ElementInstance[] = [
   },
   {
     id: idGenerator(),
-    type: "TEXTFIELD",
+    type: "MOBILENUMBERFIELD",
     extraAttributes: {
       label: "Mobile Number",
       placeHolder: "Enter your mobile number",
@@ -39,7 +39,7 @@ const MANDATORY_FIELDS: ElementInstance[] = [
   },
   {
     id: idGenerator(),
-    type: "TEXTFIELD",
+    type: "SLIDERFIELD",
     extraAttributes: {
       label: "Agreement Value",
       placeHolder: "Enter your agreement value",

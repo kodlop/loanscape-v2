@@ -28,15 +28,15 @@ function GeneralForm({
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <FormInput
         form={form}
-        name="gst_amount"
-        label="GST Amount"
-        placeholder="Enter gst amount"
+        name="gst_percent"
+        label="GST Percent"
+        placeholder="Enter gst percent"
         className="sm:col-span-2"
         type="number"
       />
       <FormInput
         form={form}
-        name="maintainece_amount"
+        name="maintenance_amount"
         label="Maintenance Amount"
         placeholder="Enter maintenance amount"
         className="sm:col-span-2"
@@ -44,27 +44,27 @@ function GeneralForm({
       />
       <FormInput
         form={form}
-        name="stamp_duty_amount"
-        label="Stamp Duty Amount"
-        placeholder="Enter stamp duty amount"
+        name="stamp_duty_percent"
+        label="Stamp Duty Percent"
+        placeholder="Enter stamp duty percent"
         className="sm:col-span-2"
         type="number"
       />
       <FormInput
         form={form}
-        name="additional_amount"
-        label="Additional Amount"
-        placeholder="Enter additional amount"
+        name="additional_percent"
+        label="Additional Amount Percent"
+        placeholder="Enter additional amount percent"
         className="sm:col-span-2"
         type="number"
       />
-      {/* <FormTextarea
+      <FormTextarea
         form={form}
         name="tnc"
         label="Terms & Conditions"
         placeholder="Enter terms & conditions"
         className="md:col-span-4"
-      /> */}
+      />
     </div>
   );
 }
@@ -78,9 +78,9 @@ function StampDuesForm({
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <FormInput
         form={form}
-        name="statutory_dues.stamp_duty"
-        label="Stamp Duty"
-        placeholder="Enter stamp duty"
+        name="statutory_dues.mod_percent"
+        label="MOD Percent"
+        placeholder="Enter mod percent"
         className="sm:col-span-2"
         type="number"
       />
@@ -157,12 +157,13 @@ function BankFormulasForm({
             label="Formula"
             placeholder="Enter formula"
             className="col-span-8"
+            description="For example: ({{Agreement Value}}+{{GST}}+{{Maintenance}}+{{Additional Valuation}})*0.75"
           />
           <Button
             size="icon"
             variant="destructive"
             onClick={() => remove(index)}
-            className="mt-auto mb-2"
+            className="mt-auto mb-11"
           >
             <Trash2 className="w-4 h-4" />
           </Button>

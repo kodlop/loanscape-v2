@@ -1,7 +1,7 @@
 import { StatCard } from "@/components/custom/stats-card";
 import { BarGraph } from "@/components/overview/bar-graph";
 import { VisitorsGraph } from "@/components/overview/visitors-graph";
-import { todaysEntries } from "@/server/entries";
+import { getEntriesStatus, todaysEntries } from "@/server/entries";
 import { Circle, CircleCheck, IndianRupee, Loader } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -23,37 +23,65 @@ import { getFormsStats } from "@/server/form";
 
 export const dynamic = "force-dynamic";
 
+async function getData() {
+  return Promise.all([todaysEntries(), getEntriesStatus(), getFormsStats()])
+    .then((values) => {
+      return {
+        data: values[0] ?? [],
+        leads: values[1] ?? [],
+        highest_agreement_value: values[2]?.highest_agreement_value ?? 0,
+      };
+    })
+    .catch((error) => {
+      console.error(error);
+      return {
+        data: [],
+        leads: [],
+        highest_agreement_value: 0,
+      };
+    });
+}
+
 export default async function OverviewPage() {
-  const data = await todaysEntries();
+  const { data, leads, highest_agreement_value } = await getData();
 
-  const leads = await getFormsStats();
+  const newLeads =
+    leads?.find((lead: any) => lead?.status === "NEW")?.count ?? 0;
+  const inProgressLeads =
+    leads?.find((lead: any) => lead?.status === "IN_PROGRESS")?.count ?? 0;
+  const confirmedLeads =
+    leads?.find((lead: any) => lead?.status === "CONFIRMED")?.count ?? 0;
 
-  console.log(leads);
   return (
     <div className="flex-1 space-y-8">
       <div className="w-full flex items-center justify-between space-y-2">
         <h2 className="text-2xl font-bold tracking-tight">Overview</h2>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         <CreateFormCard />
         <StatCard
           title="Highest Agreement Value"
           icon={IndianRupee}
-          value={formatNumberToIndianReadable(
-            leads?.highest_agreement_value ?? 0
-          )}
+          value={formatNumberToIndianReadable(highest_agreement_value ?? 0)}
           description="Highest agreement value"
         />
         <Card className="sm:col-span-2 overflow-hidden flex flex-col">
           <CardHeader>
             <CardTitle>Leads</CardTitle>
             <CardDescription>
-              Total leads
-              {formatNumberToIndianReadable(2005)}
+              Total leads:{" "}
+              {formatNumberToIndianReadable(
+                newLeads + inProgressLeads + confirmedLeads
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Progress value={(200 / 2005) * 100} />
+            <Progress
+              value={
+                (confirmedLeads / newLeads + inProgressLeads + confirmedLeads) *
+                100
+              }
+            />
           </CardContent>
           <CardFooter className="mt-auto">
             <div className="w-full grid grid-cols-1 sm:grid-cols-3">
@@ -62,7 +90,7 @@ export default async function OverviewPage() {
                   New
                 </dt>
                 <dd className="text-lg font-semibold text-foreground">
-                  {formatNumberInIndianAnnotation(1000)}
+                  {formatNumberInIndianAnnotation(newLeads)}
                 </dd>
               </dl>
               <dl className="">
@@ -70,7 +98,7 @@ export default async function OverviewPage() {
                   In Progress
                 </dt>
                 <dd className="text-lg font-semibold text-foreground">
-                  {formatNumberInIndianAnnotation(200)}
+                  {formatNumberInIndianAnnotation(inProgressLeads)}
                 </dd>
               </dl>
               <dl className="">
@@ -78,7 +106,7 @@ export default async function OverviewPage() {
                   Confirmed
                 </dt>
                 <dd className="text-lg font-semibold text-foreground">
-                  {formatNumberInIndianAnnotation(500)}
+                  {formatNumberInIndianAnnotation(confirmedLeads)}
                 </dd>
               </dl>
             </div>

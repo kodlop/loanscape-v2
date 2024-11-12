@@ -11,6 +11,8 @@ import { FormInput } from "../custom/form-input";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
+import { signIn, useSession } from "next-auth/react";
+import { set } from "date-fns";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -20,32 +22,28 @@ const authSchema = z.object({
 });
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+  const session = useSession();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (session.status === "authenticated") router.push("/overview");
+  }, [session, router]);
+
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const form = useForm<z.infer<typeof authSchema>>({
     resolver: zodResolver(authSchema),
   });
 
-  const router = useRouter();
-
   async function onSubmit(values: z.infer<typeof authSchema>) {
     setIsLoading(true);
     const { username, password } = values;
-
-    try {
-      if (username === "info@loanscape.co.in" && password === "loanscape1234") {
-        router.push("/overview");
-      } else {
-        throw new Error("Invalid credentials");
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Invalid credentials",
-        variant: "destructive",
-      });
-    }
-
+    await signIn("credentials", {
+      username,
+      password,
+      redirect: true,
+      callbackUrl: "/overview",
+    });
     setIsLoading(false);
   }
 

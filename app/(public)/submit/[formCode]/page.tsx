@@ -22,7 +22,7 @@ export default async function SubmitFormPage(props: {
     return <div>Form not found</div>;
   }
 
-  // const data = await increaseVisitsCount(formCode);
+  const data = await increaseVisitsCount(formCode);
 
   return (
     <div className="w-full h-full">

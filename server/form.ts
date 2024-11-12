@@ -40,6 +40,13 @@ export function updateFormById(id: string, data: Form) {
   });
 }
 
+export function deletdFormById(id: string) {
+  return request({
+    url: `${BASE_PATH}/delete/${id}`,
+    method: "DELETE",
+  });
+}
+
 export function getFormsStats() {
   return request({
     url: `${BASE_PATH}/stats`,

@@ -1,5 +1,5 @@
 import { StatCard } from "@/components/custom/stats-card";
-import { CreateFormCard } from "@/components/forms/create-form-card";
+import { CreateFormButton } from "@/components/forms/create-form-card";
 import { FormCard } from "@/components/forms/form-card";
 import { formatAmount } from "@/lib/formatAmount";
 import { getAllForms, getFormsStats } from "@/server/form";
@@ -19,9 +19,9 @@ export default async function FormsPage() {
     <div className="flex-1 space-y-8">
       <div className="w-full flex items-center justify-between space-y-2">
         <h2 className="text-2xl font-bold tracking-tight">Forms</h2>
+        <CreateFormButton />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <CreateFormCard />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Total Forms"
           icon={File}

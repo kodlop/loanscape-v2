@@ -71,3 +71,11 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.content-width {
+  width: calc(100vw - 260px);
+}
+
+.content-width-collapsed {
+  width: calc(100vw - 52px);
+}

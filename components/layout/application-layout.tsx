@@ -73,7 +73,12 @@ export function ApplicationLayout({ children }: ApplicationLayoutProps) {
             </div>
           </div>
           <Separator />
-          <ScrollArea className="h-full">
+          <ScrollArea
+            className={cn(
+              "h-full",
+              isCollapsed ? "content-width-collapsed" : "content-width"
+            )}
+          >
             <div className="px-4 py-8 h-full bg-accent">
               {children}
               <div className="w-full p-8"></div>

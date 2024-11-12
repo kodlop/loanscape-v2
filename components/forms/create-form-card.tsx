@@ -66,7 +66,7 @@ export function CreateFormCard() {
 
   return (
     <Dialog>
-      <Card className="bg-accent flex flex-col">
+      <Card className="bg-accent dark:border-2 flex flex-col">
         <CardHeader className="pb-3">
           <CardTitle>Create Form 🚀</CardTitle>
         </CardHeader>

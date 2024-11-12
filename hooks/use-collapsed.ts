@@ -1,9 +1,7 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 export function useCollapsed() {
-  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 1024);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
     const handleResize = () => setIsCollapsed(window.innerWidth < 1024);

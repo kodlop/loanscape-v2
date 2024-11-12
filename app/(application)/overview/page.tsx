@@ -28,6 +28,7 @@ export default async function OverviewPage() {
 
   const leads = await getFormsStats();
 
+  console.log(leads);
   return (
     <div className="flex-1 space-y-8">
       <div className="w-full flex items-center justify-between space-y-2">

@@ -1,7 +1,9 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 export function useCollapsed() {
-  const [isCollapsed, setIsCollapsed] = useState(window.innerWidth < 1024);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
     const handleResize = () => setIsCollapsed(window.innerWidth < 1024);
@@ -11,7 +13,10 @@ export function useCollapsed() {
     window.addEventListener("resize", handleResize);
 
     // Cleanup function to remove event listener on unmount
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("load", handleResize);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return isCollapsed;

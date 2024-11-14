@@ -37,9 +37,9 @@ export function FormSideMenu({
           key={item.query}
           href={pathname + "?tab=" + item.query}
           className={cn(
-            buttonVariants({ variant: "ghost" }),
+            buttonVariants({ variant: "secondary" }),
             tab === item.query
-              ? "bg-muted hover:bg-muted"
+              ? "bg-card hover:bg-card"
               : "hover:bg-transparent hover:underline",
             "justify-start"
           )}

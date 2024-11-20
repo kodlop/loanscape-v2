@@ -105,6 +105,15 @@ export function SubmissionsTable({
         });
         break;
       }
+      case "SELECTFIELD": {
+        columns.push({
+          id: element.id,
+          label: element.extraAttributes?.label || "",
+          required: element.extraAttributes?.required || false,
+          type: element.type,
+        });
+        break;
+      }
 
       default:
         break;

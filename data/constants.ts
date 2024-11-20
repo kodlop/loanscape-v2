@@ -42,7 +42,7 @@ export const BANKS = [
   {
     label: "Bank of India",
     value: "BOI",
-    logo: "/BOI-BANK.png",
+    logo: "/BOI.png",
   },
   {
     label: "Central Bank of india",

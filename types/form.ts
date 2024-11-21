@@ -8,7 +8,7 @@ const stampDuesSchema = z.object({
 
 export const bankFormulaSchema = z.object({
   bank_id: z.string(),
-  formula: z.string(),
+  formula: z.string().default("").optional(),
 });
 
 export const configSchema = z.object({

@@ -7,6 +7,7 @@ import { FormTextarea } from "@/components/custom/form-textarea";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useBuilder } from "@/hooks/use-builder";
 import { toast } from "@/hooks/use-toast";
 import { getAllBanks } from "@/server/bank";
@@ -224,34 +225,36 @@ export function ConfigAction() {
         </Button>
       </DialogTrigger>
       <DialogContent className="w-screen h-screen max-h-screen max-w-full p-6 flex flex-col gap-y-6">
-        <FormLayout
-          heading="Form Configuration"
-          description="Configure your form settings here"
-          sidemenu={[
-            {
-              title: "General",
-              query: "general",
-            },
-            {
-              title: "Stamp Dues",
-              query: "stamp-dues",
-            },
-            {
-              title: "Bank Formula",
-              query: "bank-formula",
-            },
-          ]}
-        >
-          <Form {...configForm}>
-            {tab === "general" && <GeneralForm form={configForm} />}
-            {tab === "stamp-dues" && <StampDuesForm form={configForm} />}
-            {tab === "bank-formula" && <BankFormulasForm form={configForm} />}
+        <ScrollArea className="h-screen">
+          <FormLayout
+            heading="Form Configuration"
+            description="Configure your form settings here"
+            sidemenu={[
+              {
+                title: "General",
+                query: "general",
+              },
+              {
+                title: "Stamp Dues",
+                query: "stamp-dues",
+              },
+              {
+                title: "Bank Formula",
+                query: "bank-formula",
+              },
+            ]}
+          >
+            <Form {...configForm}>
+              {tab === "general" && <GeneralForm form={configForm} />}
+              {tab === "stamp-dues" && <StampDuesForm form={configForm} />}
+              {tab === "bank-formula" && <BankFormulasForm form={configForm} />}
 
-            <Button className="mt-8" type="button" onClick={handleSaveConfig}>
-              Save Config
-            </Button>
-          </Form>
-        </FormLayout>
+              <Button className="mt-8" type="button" onClick={handleSaveConfig}>
+                Save Config
+              </Button>
+            </Form>
+          </FormLayout>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

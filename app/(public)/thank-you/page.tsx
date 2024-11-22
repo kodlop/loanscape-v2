@@ -14,7 +14,8 @@ export default async function ThankYouPage() {
               🎉 Congratulations 🎉
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-muted-foreground">
-              Your submission has been received. We will be in touch shortly.
+              Your submission has been received. The details have been sent to
+              on your WhatsApp & Email.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link

@@ -30,6 +30,7 @@ export function PublishAction() {
         is_published: true,
       } as Form;
       const { _id, createdAt, updatedAt, ...dataWithoutId } = data;
+      console.log("Publishing form", dataWithoutId);
       await updateFormById(_id as string, dataWithoutId)
         .then(() => {
           toast({

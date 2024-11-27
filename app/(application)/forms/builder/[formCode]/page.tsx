@@ -9,9 +9,7 @@ export default async function FormBuilderPage(props: {
   params: Promise<{ formCode: string }>;
 }) {
   const { formCode } = await props.params;
-  console.log(formCode);
   const form: Form | undefined | null = await getFormByFormCode(formCode);
-
   if (!form) {
     return <div>Form not found</div>;
   }

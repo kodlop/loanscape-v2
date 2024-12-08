@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Download, Edit } from "lucide-react";
 import { downloadExcel } from "@/lib/downloadExcel";
+import { Badge } from "@/components/ui/badge";
 
 interface SubmissionsTableProps {
   formElements: ElementInstance[];
@@ -127,6 +128,7 @@ export function SubmissionsTable({
     rows.push({
       ...content,
       status: submission?.status,
+      is_inquired: submission?.is_inquired ? "Yes" : "No",
       createdAt: submission?.createdAt,
       _id: submission?._id,
     });
@@ -170,7 +172,8 @@ export function SubmissionsTable({
         .reverse()
         .join("/");
 
-      newRow["Status"] = row.status;
+      newRow["Status"] = row?.status;
+      newRow["Inquired"] = row?.is_inquired;
 
       return newRow;
     });
@@ -222,6 +225,14 @@ export function SubmissionsTable({
                     variant="ghost"
                     className="-ml-3 h-8 data-[state=open]:bg-accent"
                   >
+                    Inquired
+                  </Button>
+                </TableHead>
+                <TableHead className="uppercase">
+                  <Button
+                    variant="ghost"
+                    className="-ml-3 h-8 data-[state=open]:bg-accent"
+                  >
                     Actions
                   </Button>
                 </TableHead>
@@ -246,6 +257,7 @@ export function SubmissionsTable({
                       .join("/")}
                   />
                   <RowCell type="TEXTFIELD" value={row.status} />
+                  <RowCell type="TEXTFIELD" value={row.is_inquired} />
                   <TableCell className="flex gap-x-2">
                     {/* <Link href={`tel:+91${row["Mobile Number"]}`}>
                       <Button size="sm" variant="link">
@@ -292,8 +304,24 @@ function RowCell({ type, value }: { type: ElementsType; value: string }) {
   if (type === "MOBILENUMBERFIELD") {
     node = (
       <Link href={`tel:+91${value}`}>
-        <Button variant="link">+91 {value}</Button>
+        <Button className="p-0" variant="link">
+          +91 {value}
+        </Button>
       </Link>
+    );
+  }
+  if (type === "EMAILFIELD") {
+    node = (
+      <Link href={`mailto:${value}`}>
+        <Button className="p-0" variant="link">
+          {value}
+        </Button>
+      </Link>
+    );
+  }
+  if (type === "TEXTFIELD" && (value === "Yes" || value === "No")) {
+    node = (
+      <Badge variant={value === "Yes" ? "default" : "secondary"}>{value}</Badge>
     );
   }
   return <TableCell>{node}</TableCell>;
